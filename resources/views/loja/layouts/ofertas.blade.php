@@ -32,13 +32,33 @@
                     
                     
                 </div>
-
-
             </div>			               
             <div class="clear"></div>				
         </div>
         
         @empty
+         <div id="slide-1" class="slide">			                    
+            <div class="slider-img">
+                <h1>FAÇA O SEU CADASTRO<br><span>HOJE</span></h1>
+                <a href="/registro">FAÇA O SEU CADASTRO</a>								    
+            </div>
+            <div class="slider-text">
+                
+                  <div class="add-cart" id="cart">								
+ 
+                </div>
+                <div class="features_list">
+                
+                </div>
+              
+                <div class="features_list">
+                    
+                    
+                </div>
+            </div>			               
+            <div class="clear"></div>				
+        </div>
+       
         @endforelse
 
 

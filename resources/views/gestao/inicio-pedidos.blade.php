@@ -1,6 +1,10 @@
 @extends('painel.gestao.gestao-clientes')
 @section('content')
+@if(@$status)
+<h1 style="background: {{$cor}}">{{$status}}</h1>
+@else
 <h1>Escolha umas das opções...</h1>
+@endif
 
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
     <!-- Os segundos parametros da url foram definidos por prioridade de resposta ao cliente-->
@@ -29,14 +33,22 @@
     </div>
 
 </div>
-@if(@$pedidos)
-<table class="table">
-    @forelse($pedidos as $pedido)
-    <tr style="background-color: {{$cor}};">
-        <td>
-            {{$pedido->external_reference}}
-        </td>
-        
+@if(isset($pedidos))
+<table class="table table-hover">
+    <tr>
+        <th>Num. Pedido</th>
+        <th>Status</th>
+        <th>Data</th>
+        <th>Valor Total</th>
+        <th></th>
+    </tr>
+    @forelse($pedidos as $pedido)    
+    <tr style="font-size: 14px;">
+        <td>{{$pedido->external_reference}}</td>
+        <td>{{$pedido->status}}</td>
+        <td>{{date('d/m/y - H:i ',strtotime($pedido->updated_at))}}h</td>
+        <td>{{'R$' . number_format($pedido->valor_pedido, 2, ',', '.')}}</td>
+        <td><a class="glyphicon glyphicon-menu-hamburger"href="{{url('/pedidos/detalhar-pedido/'.$pedido->external_reference)}}">Detalhar</a></td>
     </tr>
 
     @empty

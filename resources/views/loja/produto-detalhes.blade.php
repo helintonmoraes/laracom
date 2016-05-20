@@ -4,8 +4,8 @@
 
 <script>
     $(function () {
-        $('#products').slides({
-            preload: true,
+    $('#products').slides({
+    preload: true,
             preloadImage: 'img/loading.gif',
             effect: 'slide, fade',
             crossfade: true,
@@ -13,9 +13,8 @@
             fadeSpeed: 500,
             generateNextPrev: true,
             generatePagination: false
-        });
     });
-</script>
+    });</script>
 
 
 <div class="main">
@@ -29,15 +28,15 @@
                                 <div id="products">
                                     <div class="slides_container">
                                         @for ($i = 1; $i <= $produto['cont']; $i++)
-                                            <a href="#" target="_blank"><img src="{{URL::asset("/image-file/".$produto["imagem_".$i])}}" alt=" " /></a>
+                                        <a href="#" target="_blank"><img src="{{URL::asset("/image-file/".$produto["imagem_".$i])}}" alt=" " /></a>
                                         @endfor
-   
+
                                     </div>
                                     <ul class="pagination">
                                         @for ($i = 1; $i <= $produto['cont']; $i++)
-                                            <li><a href="#"><img src="{{URL::asset("/image-file/".$produto["imagem_".$i])}}" alt=" " /></a></li>
+                                        <li><a href="#"><img src="{{URL::asset("/image-file/".$produto["imagem_".$i])}}" alt=" " /></a></li>
                                         @endfor
-                                        
+
                                     </ul>
                                 </div>
                             </div>
@@ -45,46 +44,47 @@
                     </div>
                     <div class="desc span_3_of_2">
                         <h2>{{$produto['nome']}}</h2>
-                        <p>{{$produto['resumo']}}</p>					
+                        <p>{{$produto['resumo']}}</p>
+                        <span>Quantidade em Estoque: {{$produto['qtd_estoque']}}</span>
                         <div class="price">
-                            
+
                             <p>Preço: <span>R$ {{number_format($produto['preco_venda'], 2, ',', '.')}}</span></p>
                         </div>
 
                         <div class="share-desc">
-                                                <div class="add-cart" id="cart">								
-                                   <form method="POST" action="{{url('cart/add-cart')}}">
-                                       
-                                           
-                                            Quantidade : <select name="qty">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                           
-                                         
-                                         <input type="hidden" name="produto_id" value="{{$produto->id}}">
-                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                         <h4><button type="submit" class="add-cart"> Adicionar ao Carrinho</button></h4>
-                                   </form>
-                    </div>					
+                            @if($produto['qtd_estoque'] > 0)
+                            <div class="add-cart" id="cart">								
+                                <form method="POST" action="{{url('cart/add-cart')}}">
+                                    Quantidade : <select name="qty">
+                                        @foreach(range(1,$produto['qtd_estoque'])as $qty)
+                                        <option value="{{$qty}}">{{$qty}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="produto_id" value="{{$produto->id}}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <h4><button type="submit" class="add-cart"> Adicionar ao Carrinho</button></h4>
+                                </form>
+                            </div>
+                            @else
+                            <div class="add-cart" id="cart">
+                                <h4><button style="background-color:#8B8989;" disabled="TRUE"> Produto Indisponível</button></h4>
+                            </div>
+                            @endif
                             <div class="clear"></div>
                         </div>
                         <div class="wish-list">
-                           <div class="rateyo-readonly-widg"></div>
-                           <p>Avaliação Média: {{number_format($media,2)}} pontos</p>
-                           <script>
-                            $(function () {
-                             $(".rateyo-readonly-widg").rateYo({
-                             rating: {{$media}},
-                             readOnly: true
-                             }).click(function(){
-                            
-                             });
-                            });
-                        </script>
+                            <div class="rateyo-readonly-widg"></div>
+                            <p>Avaliação Média: {{number_format($media,2)}} pontos</p>
+                            <script>
+                                $(function () {
+                                $(".rateyo-readonly-widg").rateYo({
+                                rating: {{$media}},
+                                        readOnly: true
+                                }).click(function(){
+
+                                });
+                                });
+                            </script>
                         </div>
                     </div>
                     <div class="clear"></div>
@@ -94,7 +94,7 @@
                         <ul class="resp-tabs-list">
                             <li>Detalhes do Produto</li>
                             <li>Especificações</li>
-                            
+
                             <div class="clear"></div>
                         </ul>
                         <div class="resp-tabs-container">
@@ -103,24 +103,24 @@
                             </div>
 
                             <div class="product-tags">
-                            
+
                                 <p>{{$produto['especificacao']}}</p>
-                            
-                              
+
+
                             </div>	
 
-                           
+
                         </div>
                     </div>
                 </div>
-             
+
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        $('#horizontalTab').easyResponsiveTabs({
-                            type: 'default', //Types: default, vertical, accordion           
+                    $('#horizontalTab').easyResponsiveTabs({
+                    type: 'default', //Types: default, vertical, accordion           
                             width: 'auto', //auto or any width like 600px
                             fit: true   // 100% fit in a container
-                        });
+                    });
                     });
                 </script>
                 <!--PRODUTOS RELACIONADOS-->
@@ -132,9 +132,9 @@
                     <div class="clear"></div>
                 </div>
                 <div class="section group">
-                    
+
                     @forelse ($relacionados as $relacionado)
-                    
+
                     <div class="grid_1_of_5 images_1_of_4">
                         <a href="/produto-detalhes/{{$relacionado->id}}"><img src="/image-file/{{$relacionado->imagem_1}}"/></a>
                         <p>{{$relacionado->nome}}</p>
@@ -142,21 +142,21 @@
                             <div class="price-number">
                                 <p><span class="rupees">R$ {{$relacionado->preco_venda}}</span></p>
                             </div>
-                    <div class="add-cart" id="cart">								
-                                   <form method="POST" action="{{url('cart/add-cart')}}">
-                                            <input type="hidden" name="qty" value="1">
-                                            <input type="hidden" name="produto_id" value="{{$relacionado->id}}">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <h4><button type="submit" class="add-cart">Adicionar ao Carrinho</button></h4>
-                                   </form>
-                    </div>
+                            <div class="add-cart" id="cart">								
+                                <form method="POST" action="{{url('cart/add-cart')}}">
+                                    <input type="hidden" name="qty" value="1">
+                                    <input type="hidden" name="produto_id" value="{{$relacionado->id}}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <h4><button type="submit" class="add-cart">Adicionar ao Carrinho</button></h4>
+                                </form>
+                            </div>
                             <div class="clear"></div>
                         </div>
                     </div>
-                    
+
                     @empty
                     @endforelse
-                   
+
 
                 </div>
 

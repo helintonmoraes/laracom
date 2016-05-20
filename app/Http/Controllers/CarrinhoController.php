@@ -17,6 +17,12 @@ class CarrinhoController extends Controller {
     public function getAddQtd($id){        
         $rowId = Cart::search(array('id' => $id+0));
         $item = Cart::get($rowId[0]);
+        $estoque = Produto::find($item->id)->qtd_estoque; 
+        
+        if($item->qty+1 > $estoque){
+            \Session::flash('estoque','Não temos este produto em estoque!');
+            return back()->withInput();
+        }
         Cart::update($rowId[0], $item->qty + 1);
         return back()->withInput();
     }
@@ -32,15 +38,22 @@ class CarrinhoController extends Controller {
         Cart::remove($rowId[0]);
         return back()->withInput();        
     }
-    public function postAddCart(Request $request) {  
+    public function postAddCart(Request $request) {          
+        $id = $request['produto_id']; 
         
-        $id = $request['produto_id'];
+        $estoque = Produto::find($id)->qtd_estoque;  
+        $rowId = Cart::search(array('id' => $request['produto_id']+0));
+        if($estoque <  $request['qty']){
+            \Session::flash('estoque','Não temos este produto em estoque!');
+            return back()->withInput();
+        }
         $produto = Produto::find($id);
         $categorias = DB::table('categoria')->where('id_pai', 0)->get();
         $destaques = DB::table('produto')->where('destaque', true)->paginate(4);
         $ofertas = DB::table('produto')->where('oferta', true)->get();
         $lancamentos = DB::table('produto')->where('lancamento', true)->paginate(4);            
-        Cart::add(array('id' => $produto->id, 'name' => $produto->nome, 'qty' => $request['qty'], 'price' => $produto->preco_venda));
+        
+        Cart::add(array('id' => $produto->id, 'name' => $produto->nome, 'qty' => $request['qty']+0, 'price' => $produto->preco_venda));
         $cart = Cart::content();
         
         return redirect('cart/ver-carrinho')->withInput();

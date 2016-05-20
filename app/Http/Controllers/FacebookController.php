@@ -8,16 +8,15 @@ use App\Http\Requests;
 
 use Socialite;
 
-class SocialAuthController extends Controller
+class FacebookController extends Controller
 {
-    public function redirect()
-    {
+    public function getRedirect()
+    {       
         return Socialite::driver('facebook')->redirect();   
     }   
 
-    public function callback()
-    {
-        dd('test');
+    public function getCallback()
+    {        
         $facebook = \Socialite::driver('facebook')->user();
         dd($facebook);
     }

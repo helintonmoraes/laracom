@@ -6,13 +6,13 @@ Route::group(['middleware'=>['web']], function(){
     Route::controller('/', 'ClienteController');
  });   
     
-Route::get('/redirect', 'SocialAuthController@redirect');
-Route::get('/callback', 'SocialAuthController@callback');
- 
+
+ Route::controller('facebook', 'FacebookController');
  Route::controller('login','LoginController');
  Route::controller('cart','CarrinhoController');
  Route::controller('painel', 'PainelController');
- 
+ Route::controller('/pedidos','PedidoController');
+ Route::controller('/gestao','GestaoController'); 
  Route::controller('/', 'LojaController');
  
  

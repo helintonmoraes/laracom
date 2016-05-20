@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use Laracom\Http\Requests;
 use Laracom\Models\Produto as Produto;
 use Laracom\Models\Pedido as Pedido;
-use Laracom\Carrinho as Carrinho;
+use Laracom\Models\Carrinho;
 use Laracom\Models\Cliente as Cliente;
 
 class PedidoController extends Controller {
-
-    function getListagemDePedidos($id) {
+   function getListagemDePedidos($id) {
         $cliente = Cliente::find($id);
         $pedidos = Pedido::where('id_cliente', $id)->orderBy('status')->get();
 
@@ -19,35 +18,33 @@ class PedidoController extends Controller {
     }
 
     function getDetalharPedido($id) {
-        $pedido = Pedido::find($id);
+        $ped = Pedido::where('external_reference',$id)->get();
+        
+        $pedido = $ped->toArray();
+        
+       
+        
+        $cliente = Cliente::find($pedido[0]['id_cliente']);
         $itensDoCarrinho = Carrinho::where('id_pedido', $id)->get();
-        $produtos = $this->getProdutos($itensDoCarrinho);  
-        $valorPedido = 0;
-        foreach($produtos as $produto){
-            $valorPedido += $produto->preco_venda;
-        }     
-        return view('gestao.detalhes-do-pedido', compact('produtos','valorPedido','pedido'));
+
+        
+        $produtos = $this->getProdutos($itensDoCarrinho);
+        
+        
+        return view('gestao.detalhes-do-pedido', compact('produtos', 'pedido', 'cliente'));
     }
 
     function getProdutos($itensDoCarrinho) {
         $arrayDeProdutos = [];
-        foreach ($itensDoCarrinho as $item){            
-            $arrayDeProdutos[] = Produto::find($item->id_produto);
-        }   
+        foreach ($itensDoCarrinho as $item) {
+            $produto = Produto::find($item->id_produto);
+            $produto->qty = $item->qty;
+            $produto->valor_unit = $item->valor_unit;
+
+            $arrayDeProdutos[] = $produto;
+        }
         
-        return $arrayDeProdutos;       
+        return $arrayDeProdutos;
     }
-    
-    
-    
-    
-    
-    
-
-}
-
-class Lista {
-
-    public $produto;
 
 }

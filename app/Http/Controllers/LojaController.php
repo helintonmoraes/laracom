@@ -16,7 +16,7 @@ use Mail;
 class LojaController extends Controller {
     public function getIndex() {        
         //Consulta de Todos os produtos        
-        $ofertas = Produto::orderByRaw('RANDOM()')->get();
+        $ofertas = Produto::orderByRaw('RANDOM()')->where('oferta',true)->get();
         $destaques = Produto::orderByRaw('RANDOM()')->where('destaque',true)->paginate(4);
         $lancamentos = Produto::orderByRaw('RANDOM()')->where('lancamento',true)->paginate(4);
         $produtos = Produto::all()->random(4);      

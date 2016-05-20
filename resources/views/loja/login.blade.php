@@ -26,7 +26,7 @@
                     <div>
                         
                         <span><input type="submit" value="Logar"></span>
-                        <div style="margin-left:25px;" class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false">Logar com Facebook</div>
+                        <a href="/facebook/redirect">FB Login</a>
 
                         <div id="status">
                         </div>
@@ -35,18 +35,6 @@
                     {{Form::close()}}
                      <a style="display:block;margin-left:100px;"href="/reset-senha">Esqueci minha senha!</a><a style="display:block;margin-left:100px;"href="/registro">Não Tenho Cadastro!</a>
                 </div>
-       
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.6&appId=1101494746590402";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
-
 
 @endsection
 

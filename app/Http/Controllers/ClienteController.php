@@ -230,6 +230,10 @@ class ClienteController extends Controller {
                     "nota"=>0,        
                     "status"=>FALSE
                 );
+                $estoque = Produto::find($cart['id'])->qtd_estoque;
+                $estoque = $estoque - $cart['qty'];
+                Produto::where('id',$cart['id'])->update(array('qtd_estoque'=>$estoque));
+                
                 //Inserção do Ranting
                 Rating::insert($rating[$j]);                    
                 $j++;
@@ -240,7 +244,7 @@ class ClienteController extends Controller {
             $dadosPedido = array(
                 "id_cliente" => $id,
                 "external_reference" => $external,
-                "status" => 'Pagamento confirmado, Aguardando Envio',
+                "status" => 'Aguardando envio, pedido pago!',
                 "entrega" => 'Pagamento Aprovado',
                 "data_pedido" => $data_p,
                 "hora_pedido" => $hora_p,
@@ -250,7 +254,7 @@ class ClienteController extends Controller {
                 "valor_total" => 0,
                 "boleto_emitido" => FALSE
             );
-
+            
             Pedido::insert($dadosPedido);
 
             //Atualizar Cartão de Desconto
@@ -357,7 +361,7 @@ class ClienteController extends Controller {
             $preference = MP::get_preference("$pref");
             return redirect()->to($preference['response']['init_point']);
         } else {
-            Pedido::where('external_reference', $id)->update(array('boleto_emitido' => TRUE, 'status' => 'Pagamento não confirmado'));
+            Pedido::where('external_reference', $id)->update(array('boleto_emitido' => TRUE, 'status' => 'Aguardando pagamento'));
             $call_payment = $search_result['response']['results'][0]['collection']['payer']['id'];
             $id_payment = $search_result['response']['results'][0]['collection']['id'];
             return redirect()->away("https://www.mercadopago.com/mlb/payments/ticket/helper?payment_id=" . $id_payment . "&payment_method_reference_id=1812085698&caller_id=" . $call_payment)->withInput();
