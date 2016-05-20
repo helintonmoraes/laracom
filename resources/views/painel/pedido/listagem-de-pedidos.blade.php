@@ -1,5 +1,5 @@
     
-@extends('painel.gestao.gestao-clientes')
+@extends('painel.layouts.gestao')
 @section('content')
 @if($cliente)
 <h1>{{$cliente->nome}} </h1>

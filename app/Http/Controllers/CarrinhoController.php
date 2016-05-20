@@ -10,8 +10,7 @@ use Laracom\Http\Requests;
 use Laracom\Models\Produto;
 
 class CarrinhoController extends Controller {
-    public function getVerCarrinho(Request $request){  
-       
+    public function getVerCarrinho(Request $request){ 
         return view('loja.carrinho');
     }
     public function getAddQtd($id){        
@@ -20,7 +19,7 @@ class CarrinhoController extends Controller {
         $estoque = Produto::find($item->id)->qtd_estoque; 
         
         if($item->qty+1 > $estoque){
-            \Session::flash('estoque','Não temos este produto em estoque!');
+            \Session::flash('estoque','A quantidade selecionada ultrapassa o limite disponível em estoque!');
             return back()->withInput();
         }
         Cart::update($rowId[0], $item->qty + 1);
@@ -43,9 +42,13 @@ class CarrinhoController extends Controller {
         
         $estoque = Produto::find($id)->qtd_estoque;  
         $rowId = Cart::search(array('id' => $request['produto_id']+0));
-        if($estoque <  $request['qty']){
-            \Session::flash('estoque','Não temos este produto em estoque!');
-            return back()->withInput();
+        
+        if($rowId <> []){
+            $qtd = Cart::get($rowId[0])->qty;
+            if($request['qty'] > $estoque -$qtd){
+                \Session::flash('estoque','A quantidade selecionada ultrapassa o limite disponível em estoque!');
+                return back()->withInput();
+            }
         }
         $produto = Produto::find($id);
         $categorias = DB::table('categoria')->where('id_pai', 0)->get();

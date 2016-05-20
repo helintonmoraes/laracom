@@ -28,12 +28,12 @@ class PainelController extends Controller {
     public function getCategoria() {
         $categorias = DB::table('categoria')->where('id_pai','>', 0)->paginate(8);
         $categorias_pai = DB::table('categoria')->where('id_pai',0)->get();
-        return view('painel.categoria', compact('categorias','categorias_pai'));
+        return view('painel.produtos.categoria', compact('categorias','categorias_pai'));
     }
 
     public function getAdicionarCategoria() {
         $categorias_pais = DB::table('categoria')->where('id_pai',0)->get();
-        return view('.painel.create-edit-categoria', compact('categorias_pais'));
+        return view('.painel.produtos.create-edit-categoria', compact('categorias_pais'));
     }
 
     public function postAdicionarCategoria(Request $request) {
@@ -46,7 +46,7 @@ class PainelController extends Controller {
     public function getEditarCategoria($id) {
         $categorias_pais = DB::table('categoria')->where('id_pai',0)->get();
         $categorias_filhos = DB::table('categoria')->where('id',$id)->get();
-        return view('painel.create-edit-categoria', compact('categorias_filhos','categorias_pais'));
+        return view('painel.produtos.create-edit-categoria', compact('categorias_filhos','categorias_pais'));
     }
 
     public function postEditarCategoria(Request $request, $id) {
@@ -70,7 +70,7 @@ class PainelController extends Controller {
     //-------------Painel Marca-------------//
     public function getMarca() {
         $marcas = DB::table('marca')->paginate(8);
-        return view('painel.marca', compact('marcas'));
+        return view('painel.produtos.marca', compact('marcas'));
     }
 
     public function getAdicionarMarca() {
@@ -108,19 +108,19 @@ class PainelController extends Controller {
     public function getProduto() {
         $produtos = DB::table('produto')->paginate(8);
         $categorias = DB::table('categoria')->get();
-        return view('painel.produto', compact('produtos', 'categorias'));
+        return view('painel.produtos.produto', compact('produtos', 'categorias'));
     }
 
     public function getAdicionarProduto() {
         $categorias = DB::table('categoria')->get();        
         
-        return view('painel.create-edit-produto', compact('categorias'));
+        return view('painel.produtos.create-edit-produto', compact('categorias'));
     }
     public function getEditarProduto($id) {
         $produto = Produto::find($id);
         
         $categorias = DB::table('categoria')->get(); 
-        return view('.painel.create-edit-produto', compact('produto','categorias'));
+        return view('painel.produtos.create-edit-produto', compact('produto','categorias'));
     }
 
     public function postEditarProduto(Request $request, $id) {
@@ -235,7 +235,7 @@ class PainelController extends Controller {
     
     public function getContatos(){
         $contatos = DB::table('contatos')->get();
-        return view('painel.contato', compact('contatos'));
+        return view('painel.contatos.contato', compact('contatos'));
     }
     
     public function getContatoDetalhes($id){
@@ -271,6 +271,39 @@ class PainelController extends Controller {
     public function getDeletarPedido($id){
         $result = MP::cancel_payment($id);
         return redirect('painel/pedidos');
+    }
+    
+    public function getEstoque($estoque) {
+        
+        if($estoque == 1){
+           $produtos = Produto::where('qtd_estoque',0)->paginate(8); 
+           
+          
+           $categorias = DB::table('categoria')->get();
+           return view('painel.estoque.estoque', compact('produtos', 'categorias'));
+        }   
+        if($estoque == 2){
+           $produtos = Produto::where('qtd_estoque','>',0)->where('qtd_estoque','<',11)->paginate(8); 
+           $categorias = DB::table('categoria')->get();
+           return view('painel.estoque.estoque', compact('produtos', 'categorias'));
+        }   
+        if($estoque == 3){
+           $produtos = Produto::where('qtd_estoque','>',10)->where('qtd_estoque','<',21)->paginate(8); 
+           $categorias = DB::table('categoria')->get();
+           return view('painel.estoque.estoque', compact('produtos', 'categorias'));
+        } 
+        if($estoque == 4){
+           $produtos = Produto::where('qtd_estoque','>',20)->paginate(8); 
+           $categorias = DB::table('categoria')->get();
+           return view('painel.estoque.estoque', compact('produtos', 'categorias'));
+        } 
+    }
+    public function postAlteraEstoque(Request $request){
+        $estoque = (Produto::find($request['id_produto'])->qtd_estoque+$request['qtd_estoque']);
+        $id = $request['id_produto']+0;
+        Produto::where('id',$id)->update(array('qtd_estoque'=> $estoque));
+       
+        return back()->withInput();
     }
   
 }

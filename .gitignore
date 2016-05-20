@@ -1,6 +1,9 @@
 /vendor
 /node_modules
-/public/storage
+/public/storage/logs
+/public/storage/framework
+/public/storage/app
+/public/storage/laravel.log
 Homestead.yaml
 Homestead.json
 .env

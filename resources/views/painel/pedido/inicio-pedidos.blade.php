@@ -1,4 +1,4 @@
-@extends('painel.gestao.gestao-clientes')
+@extends('painel.layouts.gestao')
 @section('content')
 @if(@$status)
 <h1 style="background: {{$cor}}">{{$status}}</h1>
