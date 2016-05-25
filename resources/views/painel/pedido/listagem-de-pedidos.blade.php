@@ -22,7 +22,7 @@
             <td>{{$pedido->external_reference}}</td>
             <td>{{$pedido->status}}</td>
             <td>{{$pedido->data_pedido}}</td>
-            <td><a class="btn btn-success" href="{{url('/pedidos/detalhar-pedido',$pedido->id)}}">Ver detalhes</a></td>
+            <td><a class="btn btn-success" href="{{url('pedido/detalhar-pedido',$pedido->external_reference)}}">Ver detalhes</a></td>
         </tr>
     </a>
     @empty

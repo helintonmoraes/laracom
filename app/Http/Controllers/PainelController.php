@@ -19,9 +19,17 @@ class PainelController extends Controller {
 
     public function getIndex() {        
         $produtos = DB::table('produto')->paginate(5);
+        $clientes = DB::table('cliente')->paginate(5);
+        $estoque = Produto::all();
+        
+        $total = 0;
+        foreach($estoque as $e){
+            $total = $e->qtd_estoque + $total;
+         }
+//         dd($total);
         $marcas = DB::table('marca')->paginate(5);
         $categorias = DB::table('categoria')->where('id_pai','>', 0)->paginate(8);
-        return view('painel.index', compact('produtos', 'marcas','categorias'));
+        return view('painel.index', compact('produtos', 'marcas','categorias','clientes','total'));
     }
 
     //........................Painel Categoria....................................//
@@ -265,7 +273,7 @@ class PainelController extends Controller {
         //Retorno da busca
         
         $pedidos = $search_result['response']['results'];
-        return view('painel.pedidos',compact ('pedidos'));
+        return view('painel.pedido.pedidos',compact ('pedidos'));
     }
     
     public function getDeletarPedido($id){
@@ -274,36 +282,102 @@ class PainelController extends Controller {
     }
     
     public function getEstoque($estoque) {
-        
+        if($estoque == 0){
+           $produtos = Produto::where('nome','<>','')->orderBy('qtd_estoque')->orderBy('id_subcategoria')->paginate(8);   
+           $categorias = DB::table('categoria')->get();
+           return view('painel.estoque.estoque', compact('produtos', 'categorias'));
+        } 
         if($estoque == 1){
-           $produtos = Produto::where('qtd_estoque',0)->paginate(8); 
-           
-          
+           $produtos = Produto::where('qtd_estoque',0)->orderBy('qtd_estoque')->orderBy('id_subcategoria')->paginate(8);   
            $categorias = DB::table('categoria')->get();
            return view('painel.estoque.estoque', compact('produtos', 'categorias'));
         }   
         if($estoque == 2){
-           $produtos = Produto::where('qtd_estoque','>',0)->where('qtd_estoque','<',11)->paginate(8); 
+           $produtos = Produto::where('qtd_estoque','>',0)->where('qtd_estoque','<',11)->orderBy('qtd_estoque')->orderBy('id_subcategoria')->paginate(8); 
            $categorias = DB::table('categoria')->get();
            return view('painel.estoque.estoque', compact('produtos', 'categorias'));
         }   
         if($estoque == 3){
-           $produtos = Produto::where('qtd_estoque','>',10)->where('qtd_estoque','<',21)->paginate(8); 
+           $produtos = Produto::where('qtd_estoque','>',10)->where('qtd_estoque','<',21)->orderBy('qtd_estoque')->paginate(8); 
            $categorias = DB::table('categoria')->get();
            return view('painel.estoque.estoque', compact('produtos', 'categorias'));
         } 
         if($estoque == 4){
-           $produtos = Produto::where('qtd_estoque','>',20)->paginate(8); 
+           $produtos = Produto::where('qtd_estoque','>',20)->orderBy('qtd_estoque')->paginate(8); 
            $categorias = DB::table('categoria')->get();
            return view('painel.estoque.estoque', compact('produtos', 'categorias'));
         } 
     }
-    public function postAlteraEstoque(Request $request){
-        $estoque = (Produto::find($request['id_produto'])->qtd_estoque+$request['qtd_estoque']);
-        $id = $request['id_produto']+0;
+    public function postAlteraEstoque(Request $request){        
+        $estoque = (Produto::find($request->id)->qtd_estoque+$request->qtd_estoque);
+        $id = $request->id;
         Produto::where('id',$id)->update(array('qtd_estoque'=> $estoque));
-       
+        \Session::flash('estoque_ok','O estoque foi atualizado com sucesso!');
         return back()->withInput();
     }
-  
+    
+    
+    function getClientes() {
+        $clientes = Cliente::orderBy('nome')->paginate(10);
+        return view('painel.clientes.listagem-clientes', compact('clientes'));
+    }
+
+    function getDetalhesCliente($id) {
+        $cliente = Cliente::find($id);
+        return view('painel.clientes.detalhes-do-cliente', compact('cliente'));
+    }
+    //Gráfico de Estoque por Categoria
+    function getEstoqueCategoria() {
+        $cat_1 = Produto::where('id_categoria',1)->get();
+        $cat_2 = Produto::where('id_categoria',2)->get();
+        $cat_3 = Produto::where('id_categoria',3)->get();
+        $cat_4 = Produto::where('id_categoria',4)->get();
+        $cat_5 = Produto::where('id_categoria',5)->get();
+        $cat_6 = Produto::where('id_categoria',6)->get();
+        $cat_7 = Produto::where('id_categoria',7)->get();
+        //Estoque por Categorias
+        $x1 = 0;
+        foreach($cat_1 as $c1){
+            $x1 = $c1->qtd_estoque +$x1;
+        }
+        
+        $x2 = 0;
+        foreach($cat_2 as $c2){
+            $x2 = $c2->qtd_estoque +$x2;
+        }
+        
+        $x3 = 0;
+        foreach($cat_3 as $c3){
+            $x3 = $c3->qtd_estoque +$x3;
+        }
+        
+        $x4 = 0;
+        foreach($cat_4 as $c4){
+            $x4 = $c4->qtd_estoque +$x4;
+        }
+        
+        $x5 = 0;
+        foreach($cat_5 as $c5){
+            $x5 = $c5->qtd_estoque +$x5;
+        }
+        
+        $x6 = 0;
+        foreach($cat_6 as $c6){
+            $x6 = $c6->qtd_estoque +$x6;
+        }
+        
+        $x7 = 0;
+        foreach($cat_7 as $c7){
+            $x7 = $c7->qtd_estoque +$x7;
+        }
+        
+        return view('painel.relatorios',compact('x1','x2','x3','x4','x5','x6','x7'));
+    }
+//   SELECT count(*) as NrVezes, id_cliente FROM pedidos GROUP BY id_cliente ORDER BY NrVezes DESC
+    public function getSair(Request $request) {
+        $request->session()->forget('admin');
+        $request->session()->forget('dados_admin');
+        
+        return redirect('/login/admin');
+    }
 }

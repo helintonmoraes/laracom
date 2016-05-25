@@ -28,14 +28,11 @@ class ClienteController extends Controller {
     }
 
     public function getCadastro(Request $request) {
-
         return view('cliente.dados');
     }
 
     public function postEditar(Request $request) {
-       
         $dados = $request->except('_token','cpf','email');
-        
         $id = $request->session()->get('dados');
 
         //Validação
@@ -188,7 +185,8 @@ class ClienteController extends Controller {
                     "valor_pedido" => $valor_pedido,
                     "cartao_desconto" => $descontos,
                     "valor_total" => $valor_pedido - $descontos,
-                    "boleto_emitido" => FALSE
+                    "boleto_emitido" => FALSE,
+                    "saida_estoque" => FALSE
                 );
                 Pedido::insert($dadosPedido);
                 //Depois de tudo feito, vou atualizar o cartão desconto, caso 
@@ -252,7 +250,8 @@ class ClienteController extends Controller {
                 "valor_pedido" => $valor_pedido,
                 "cartao_desconto" => $descontos,
                 "valor_total" => 0,
-                "boleto_emitido" => FALSE
+                "boleto_emitido" => FALSE,
+                "saida_estoque" => TRUE
             );
             
             Pedido::insert($dadosPedido);

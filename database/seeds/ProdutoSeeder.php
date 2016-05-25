@@ -1072,7 +1072,7 @@ Com duas entradas HDMI, é possível conectar aparelhos de alta definição como
 
    ],   
    23=>[ 
-		'nome' => 'TV LED Sharp Aquos LC-70',
+	'nome' => 'TV LED Sharp Aquos LC-70',
 
      	'descricao'=>'Alta definição em sua melhor forma. Encontre a melhor qualidade de imagem em Full HD com performance premium e recursos inteligentes de fácil utilização. O design único e sofisticado da TV contribui para a elegância da sua casa. ',
 
@@ -1111,7 +1111,143 @@ Com duas entradas HDMI, é possível conectar aparelhos de alta definição como
         
         'id_marca'=>'1'
 
-   ],              
+   ], 
+       24=>[ 
+	'nome' => 'Jogo de Panela Tramontina Versalhes',
+
+     	'descricao'=>'As Panelas Tramontina Versalhes são fabricadas em alumínio com revestimento interno em antiaderente Starflon T1 e externo em poliéster, possui cabos e alças em baquelite antitérmico antitérmico e pegadores de nylon. Muito mais tecnologia e qualidade para sua cozinha ficar ainda mais completa e prática!',
+
+    	'especificacao'=>'Orientações Gerais
+
+Uso seguro e adequado:
+Para garantir a durabilidade do revestimento dos produtos, recomenda-se usar utensílios de nylon, silicone ou madeira. Secá-la bem após a lavagem, mesmo sendo em máquina de lavar louças.
+
+Benefícios do Produto
+
+1. Revestimentos interno em antiaderente Starflon T1.
+2. Revestimento externo em poliéster
+3. Cabos e alças em baquelite antitérmico que resistem a altas temperaturas durante o manuseio. 
+4. Pegadores de nylon.
+5. Devido aos revestimentos antiaderente os alimentos não grudam, proporcionando facilidade nalimpeza. 
+6. Maior espessura do revestimento dos produtos para proporcionar melhor cozimento dos alimentos e maior economia, pois o calor se espalha de forma uniforme e rápida. 
+7. Proporcionam um cozimento rápido e uniforme.
+8. Tampas de vidro temperado com bordas de aço inox.
+9. Podem ser utilizadas em fogão a gás, elétrico e vitrocerâmico (resistência elétrica).
+10. Podem ir à máquina de lavar louças. 
+11. Seguindo as instruções de uso, permanecerão bonitas por muito mais tempo.',
+ 
+        'resumo'=>'As Panelas Tramontina Versalhes são fabricadas em alumínio com revestimento interno em antiaderente Starflon T1 e externo em poliéster,',
+
+        'imagem_1'=>'panelas_versa.jpg',
+
+         'imagem_2'=>'0_0.jpg',
+
+        'imagem_3'=>'0_0.jpg',
+
+        'imagem_4'=>'0_0.jpg',
+
+        'imagem_5'=>'0_0.jpg',
+        'imagem_6'=>'0_0.jpg',
+          
+        'cont'=>'1',
+          
+        'qtd_avalicao'=>'10',
+
+        'preco_venda'=>'195.77',
+
+        'qtd_estoque'=>'58',
+
+        'lancamento'=>'true',
+
+        'destaque'=>'true',
+
+        'oferta'=>'true',
+
+        'id_categoria'=>'4',
+
+        'id_subcategoria'=>'24',
+        
+        'id_marca'=>'1'
+
+   ],          
+       25=>[ 
+	'nome' => 'Panelas Fortaleza Antiaderente 4 Peças',
+
+     	'descricao'=>'Faça pratos mais saborosos e deliciosos com este conjunto de panelas da Alumínio Fortaleza. ',
+
+    	'especificacao'=>'Marca
+
+Alumínio Fortaleza
+Referência
+
+800809.
+Cor
+
+Preto
+Modelo
+
+800809
+Tipo da panela
+
+conjunto de panelas
+
+Material
+Material da panela
+
+Alumínio com revestimento antiaderente.
+Material da alça
+
+baquelite.
+Revestimento interno
+
+antiaderente.
+Uso
+
+Doméstico
+
+Peso aproximado
+Peso do produto
+
+5,573 kg.
+Peso do produto com embalagem
+
+6,243 kg.
+',
+ 
+        'resumo'=>'Faça pratos mais saborosos e deliciosos com este conjunto de panelas da Alumínio Fortaleza. ',
+
+        'imagem_1'=>'panela_fortaleza.jpg',
+
+         'imagem_2'=>'0_0.jpg',
+
+        'imagem_3'=>'0_0.jpg',
+
+        'imagem_4'=>'0_0.jpg',
+
+        'imagem_5'=>'0_0.jpg',
+        'imagem_6'=>'0_0.jpg',
+          
+        'cont'=>'1',
+          
+        'qtd_avalicao'=>'10',
+
+        'preco_venda'=>'195.77',
+
+        'qtd_estoque'=>'47',
+
+        'lancamento'=>'true',
+
+        'destaque'=>'true',
+
+        'oferta'=>'true',
+
+        'id_categoria'=>'4',
+
+        'id_subcategoria'=>'24',
+        
+        'id_marca'=>'1'
+
+   ], 
 
    
              ];

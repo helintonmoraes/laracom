@@ -46,12 +46,7 @@
                                     </td>
                                     <td>{{$produto->qtd_estoque}}</td>
                                     <td>
-                                        
-                                        <a href="#add-estoque" role="button" data-toggle="modal" class="deletar"><i class="glyphicon glyphicon-trash"></i></a>
-
-                                    </td>
-                                </tr>
-                                <div id="add-estoque" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+                                          <div id="add-estoque{{$produto->id}}" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -59,25 +54,32 @@
                                         <h4 class="modal-title">Alterar Estoque</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Informe a quantidade desejada:</p>
-                                        {{Form::open(['url' => "painel/editar-marca/$produto->id", 'files' => true,'id' => 'file-upload', 'class' => 'upload'])}}
-                                        <div class="form-group">
+                                        <p>Estoque Atual:{{$produto->qtd_estoque}}</p>
+                                        <p>Quantos {{$produto->nome}} você deseja adicionar?</p>
                                         
-                                        {{Form::text('qtd_estoque',null,['id'=>'qtd_e','class'=>'form-control'])}}
+                                        {{Form::open(['url' => "painel/altera-estoque", 'files' => true,'id' => 'file-upload', 'class' => 'upload'])}}
+                                        <div class="form-group">
+                                        {{Form::hidden('id',$produto->id,['class'=>'form-control'])}}
+                                        {{Form::text('qtd_estoque',null,['class'=>'form-control'])}}
                                          @if($errors->has('qtd_estoque'))                  
                                          <p class="text-danger">{!! $errors->first('qtd_estoque') !!}</p>
                                          @endif 
-                                        {{Form::close()}}
+                                        
                                         </div>
                                      <div class="modal-footer">
                                         <button type="button" data-dismiss="modal" class="btn default">Cancelar</button>
-                                        <a id="confirmaAdd" class="btn red">Adicionar</a>
+                                        <button type="submit" class="btn btn-default">Adicionar</button>
                                     </div>
-                                       
+                                       {{Form::close()}}
                                 </div>
                             </div>
                         </div>
                     </div>
+                                        <a href="#add-estoque{{$produto->id}}" role="button" data-toggle="modal" class="deletar"><i class="glyphicon glyphicon-trash"></i></a>
+
+                                    </td>
+                                </tr>
+                           
                                 @empty
                                 @endforelse
                             </tbody>
@@ -93,6 +95,6 @@
     </div>
 
 
-
+   
 
     @endsection

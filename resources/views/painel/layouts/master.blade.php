@@ -104,12 +104,12 @@
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            <li><a href="#"><i class="fa fa-user fa-fw"></i> {{$admin->nome}}</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <li><a href="{{URL::asset('painel/sair')}}"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                             </li>
                         </ul>
                         <!-- /.dropdown-user -->
@@ -149,14 +149,10 @@
             <!-- Metis Menu Plugin JavaScript -->
             <script src="{{URL::asset('admin/bower_components/metisMenu/dist/metisMenu.min.js')}}"></script>
 
-            <!--     Morris Charts JavaScript 
-                <script src="{{URL::asset('admin/bower_components/raphael/raphael-min.js')}}"></script>
-                <script src="{{URL::asset('admin/bower_components/morrisjs/morris.min.js')}}"></script>
-                <script src="{{URL::asset('admin/js/morris-data.js')}}"></script>-->
-
-            <!-- Custom Theme JavaScript -->
-            <script src="{{URL::asset('admin/dist/js/sb-admin-2.js')}}"></script>
+           
             
+            <!-- Custom Theme JavaScript -->
+            <script src="{{URL::asset('admin/dist/js/sb-admin-2.js')}}"></script>            
             <script src="{{URL::asset('admin/js/ajax.js')}}"></script>            
             <script src="{{URL::asset('admin/bower_components/datatables/media/js/jquery.dataTables.min.js')}}"></script>
             <script src="{{URL::asset('admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js')}}"></script>
@@ -165,6 +161,20 @@
 </html>
 
 
+@if(Session::has('estoque_ok'))
+<script LANGUAGE="JavaScript" TYPE="text/javascript">
+alert ("{!! session('estoque_ok') !!}")
+location.reload(); 
+</script> 
+@endif
 
+@if(Session::has('ped_alt'))
+<script LANGUAGE="JavaScript" TYPE="text/javascript">
+alert ("{!! session('ped_alt') !!}")
+location.reload(); 
+</script> 
+@endif
 
-  
+<!--     Canvas Charts JavaScript -->         
+<script src="{{URL::asset('admin/js/canvas/canvasjs.min.js')}}"></script>
+<script src="{{URL::asset('admin/js/canvas/jquery.canvasjs.min.js')}}"></script>

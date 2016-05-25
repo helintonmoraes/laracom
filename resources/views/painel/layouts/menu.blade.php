@@ -1,4 +1,6 @@
+
 @yield('menu')
+
 <!-- /.Menu -->                
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
@@ -70,10 +72,10 @@
 
 
             <li>
-                <a href="#"><i class="glyphicon glyphicon-indent-right"></i> Relatórios<span class="fa arrow"></span></a>
+                <a href="#"><i class="glyphicon glyphicon-indent-right"></i> Gráficos<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">Por Categoria</a>
+                        <a href="{{URL::asset('painel/estoque-categoria')}}">Estoque por Categoria</a>
                     </li>
                     <li>
                         <a href="#">Por Marca</a>
@@ -89,7 +91,7 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="{{url('/gestao/gestao-pedidos')}}"><i class="glyphicon glyphicon-usd"></i> Pedidos<span class="fa arrow"></span></a>
+                <a href="{{url('/pedido')}}"><i class="glyphicon glyphicon-usd"></i> Pedidos<span class="fa arrow"></span></a>
 
                 <!-- /.nav-second-level -->
             </li>
@@ -103,7 +105,7 @@
                 <a href="#"><i class="glyphicon glyphicon-eye-open"></i> Clientes<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{{url('/gestao/gestao-clientes')}}">Listar Clientes</a>
+                        <a href="{{url('/painel/clientes')}}">Listar Clientes</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

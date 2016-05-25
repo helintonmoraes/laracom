@@ -16,7 +16,7 @@ class CreateTablePedidos extends Migration
             $table->increments('id');
             $table->string('external_reference');
             $table->string('pref_id');
-            $table->string('status');
+            $table->string('status');        
             $table->string('entrega');           
             $table->string('data_pedido');
             $table->string('hora_pedido');
@@ -25,6 +25,7 @@ class CreateTablePedidos extends Migration
             $table->float('cartao_desconto'); //Valor dos desconto
             $table->float('valor_total'); //Valor total com os descontos
             $table->boolean('boleto_emitido');
+            $table->boolean('saida_estoque');//Controle de Saída de Estoque
             $table->timestamps();
         });
     }

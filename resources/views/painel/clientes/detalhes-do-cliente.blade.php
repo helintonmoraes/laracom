@@ -1,8 +1,8 @@
-@extends('painel.gestao.gestao-clientes')
+@extends('painel.layouts.gestao')
 @section('content')
 <h1>{{$cliente->nome}}</h1>
 
-<a class="btn btn-primary" href="{{url('/pedidos/listagem-de-pedidos',$cliente->id)}}"> Ver pedidos de {{$cliente->nome}}</a>
+<a class="btn btn-primary" href="{{url('/pedido/listagem-de-pedidos',$cliente->id)}}"> Ver pedidos de {{$cliente->nome}}</a>
 
 
 
@@ -22,7 +22,7 @@
 
 
 <br/>
-<h3>Pontos Acumulados: <span style="color: red;">{{$cliente->gift_card}}</span> pontos</h3>
+<h3>Pontos Acumulados: <span style="color: red;">{{$cliente->saldo_pontos}}</span> pontos</h3>
 <br/>
 <br/>
 

@@ -63,8 +63,8 @@
         </div>
         <a href="#">
             <div class="panel-footer">
-                <a href="{{url('painel/pedidos')}}"> <span class="pull-left">Ver detalhes</span></a>
-                <a href="{{url('painel/pedidos')}}"> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></a>
+                <a href="{{url('pedido')}}"> <span class="pull-left">Ver detalhes</span></a>
+                <a href="{{url('pedido')}}"> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></a>
                 <div class="clearfix"></div>
             </div>
         </a>
@@ -102,15 +102,15 @@
                       <i class="fa fa fa-users fa-5x"></i>
                 </div>
                 <div class="col-xs-9 text-right">
-                    <div class="huge">0</div>
+                    <div class="huge">{{$clientes->total()}}</div>
                     <div>Clientes!</div>
                 </div>
             </div>
         </div>
         <a href="#">
             <div class="panel-footer">
-                <a href="{{url('painel/categoria')}}"> <span class="pull-left">Ver detalhes</span></a>
-                <a href="{{url('painel/categoria')}}"> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></a>
+                <a href="{{url('painel/clientes')}}"> <span class="pull-left">Ver detalhes</span></a>
+                <a href="{{url('painel/clientes')}}"> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></a>
                 <div class="clearfix"></div>
             </div>
         </a>
@@ -125,15 +125,15 @@
                       <i class="fa fa-cubes fa-5x"></i>
                 </div>
                 <div class="col-xs-9 text-right">
-                    <div class="huge">0</div>
+                    <div class="huge">{{$total}}</div>
                     <div>Estoque!</div>
                 </div>
             </div>
         </div>
         <a href="#">
             <div class="panel-footer">
-                <a href="{{url('painel/categoria')}}"> <span class="pull-left">Ver detalhes</span></a>
-                <a href="{{url('painel/categoria')}}"> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></a>
+                <a href="{{url('painel/estoque/0')}}"> <span class="pull-left">Ver detalhes</span></a>
+                <a href="{{url('painel/estoque/0')}}"> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></a>
                 <div class="clearfix"></div>
             </div>
         </a>

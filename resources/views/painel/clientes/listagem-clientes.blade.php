@@ -1,4 +1,4 @@
-@extends('painel.gestao.gestao-clientes')
+@extends('painel.layouts.gestao')
 @section('content')
 
 <table class="table">
@@ -12,7 +12,7 @@
 
     <tr>
         <div>
-            <td><a href="{{url('gestao/detalhes-cliente', $cliente->id)}}"> {{$cliente->nome}}</a></td>
+            <td><a href="{{url('painel/detalhes-cliente', $cliente->id)}}"> {{$cliente->nome}}</a></td>
             <td>{{$cliente->email}}</td>
             <td>{{$cliente->fone}}</td>
         </div>
