@@ -22,7 +22,7 @@
             </li>
             <li>
             <li>
-                <a href="#"><i class="glyphicon glyphicon-list-alt"></i> SubCategorias<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-camera-retro"></i> SubCategorias<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 
                     <li>
@@ -37,7 +37,7 @@
             </li>
             
                         <li>
-                <a href="#"><i class="glyphicon glyphicon-list-alt"></i> Estoque<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-cubes"></i> Estoque<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 
                     <li>
@@ -122,7 +122,7 @@
                         <a href="#">Adicionar</a>
                     </li>
                     <li>
-                        <a href="#">Alterar</a>
+                        <a href="{{url('painel/dados-admin')}}">Alterar</a>
                     </li>
                     <li>
                         <a href="#">Excluir</a>

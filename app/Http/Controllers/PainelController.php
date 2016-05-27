@@ -9,6 +9,7 @@ use Laracom\Http\Requests;
 use Storage;
 use MP;
 use Laracom\Models\Cliente;
+use Laracom\Models\Admin;
 use Laracom\Models\Pedido;
 use Laracom\Models\Produto;
 use Laracom\Models\Contato;
@@ -379,5 +380,31 @@ class PainelController extends Controller {
         $request->session()->forget('dados_admin');
         
         return redirect('/login/admin');
+    }
+    
+    public function getDadosAdmin(){
+        $id = \Session::get('dados_adm');
+        $dados = Admin::find($id);
+        
+        return view('painel.dados-adm',compact('dados'));
+    }
+    public function postEditarDadosAdm(Request $request) {
+        $dados = $request->except('_token','cpf','email','login');
+        $id = $request->session()->get('dados_adm');
+
+        //Validação
+        $validator = Validator::make($dados, Admin::$rules_alt, Cliente::$messages);
+        if ($validator->fails()) {
+            return redirect('painel/dados-admin')
+                            ->withErrors($validator)
+                            ->withInput();
+        }
+        //Fim das Regras//     
+        $dados['senha']=sha1($request['senha']);
+        Admin::where('id', $id)->update($dados);
+        
+        $msg = 'Cadastro Alterado com sucesso.';
+        $request->session()->flash('status_adm',$msg);
+        return redirect()->back(); 
     }
 }

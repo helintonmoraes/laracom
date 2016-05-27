@@ -32,7 +32,7 @@ class ClienteController extends Controller {
     }
 
     public function postEditar(Request $request) {
-        $dados = $request->except('_token','cpf','email');
+        $dados = $request->except('_token','cpf','email','login');
         $id = $request->session()->get('dados');
 
         //Validação
@@ -204,8 +204,13 @@ class ClienteController extends Controller {
                 Cart::destroy();
                 //Direciona para a página de pagamentos
                 return redirect()->to($preference['response']['init_point']);
-            } catch (Exception $e) {
-                dd($e->getMessage());
+            } catch (\Exception $e) {
+                
+                if($e->getMessage() == "Could not resolve host: api.mercadopago.com"){
+                    \Session::flash('mp_error','Não foi possível concluir o seu pedido, verifique a sua conexão ou tente mais tarde!');
+                    return redirect()->to('/cart/ver-carrinho');
+                }
+                
             }
         }
         //Caso o valor do cartão desconto cubra o valor do pedido, 
@@ -390,25 +395,20 @@ class ClienteController extends Controller {
     public function getAddDesconto(Request $request) {
         $id = $request->session()->get('dados');
         $desconto = Cliente::find($id)->saldo_pontos * 0.02;
-//        dd($desconto*0.02);
         $total = Cart::total() - $desconto;
         $request->session()->put('desconto', $desconto);
         $request->session()->put('total', $total);
-
-
         return redirect()->to('cliente/');
     }
     
     public function getRating(Request $request){
         $nota = $request->nota;       
         $id = $request->id;
-        
         Rating::where('id',$id)->update(array('nota'=>$nota,'status'=>TRUE));
         
     }
     public function getRastreioDetalhado($id){        
         $rastreio = Pedido::where('external_reference',$id)->get();
-       
         return view('cliente.rastreio-detalhado',compact('rastreio'));
     }
     

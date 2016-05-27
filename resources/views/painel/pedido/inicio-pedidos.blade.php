@@ -10,12 +10,12 @@
     <!-- Os segundos parametros da url foram definidos por prioridade de resposta ao cliente-->
     <div class="btn-group" role="group">
         <a href="{{url('/pedido/listar-pedidos',1)}}">
-            <button type="button" class="btn btn-danger">Pedidos Pagos, aguardando envio...</button>
+            <button type="button" class="btn btn-danger">Pedidos Pagos, aguardando envio...{{$cont['ag_envio']}}</button>
         </a>
     </div>
     <div class="btn-group" role="group">
         <a href="{{url('/pedido/listar-pedidos',2)}}">
-            <button type="button" class="btn btn-warning">Pedidos Aguardando Pagamento...</button>
+            <button type="button" class="btn btn-warning">Pedidos Aguardando Pagamento...{{$cont['pen_pgto']}}</button>
         </a>
     </div>
 </div>
@@ -23,12 +23,12 @@
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
     <div class="btn-group" role="group">
         <a href="{{url('/pedido/listar-pedidos',3)}}">
-            <button type="button" class="btn btn-primary">Pedidos Enviados para Entrega...</button>
+            <button type="button" class="btn btn-primary">Pedidos Enviados para Entrega...{{$cont['enviado']}}</button>
         </a>
     </div>
     <div class="btn-group" role="group">
         <a href="{{url('/pedido/listar-pedidos',4)}}">
-            <button type="button" class="btn btn-success">Pedidos Entregues!!!</button>
+            <button type="button" class="btn btn-success">Pedidos Entregues!!!{{$cont['entregue']}}</button>
         </a>
     </div>
 

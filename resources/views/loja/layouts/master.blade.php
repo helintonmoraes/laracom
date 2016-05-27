@@ -205,6 +205,12 @@ alert ("{!! session('estoque') !!}")
 </script> 
 @endif
 
+@if(Session::has('mp_error'))
+<script LANGUAGE="JavaScript" TYPE="text/javascript">
+alert ("{!! session('mp_error') !!}")
+location.reload(); 
+</script> 
+@endif
 <!--SDK Facebook-->
 <script>
   window.fbAsyncInit = function() {

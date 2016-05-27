@@ -104,9 +104,9 @@
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> {{$admin->nome}}</a>
+                            <li><a href="{{url('painel/dados-admin')}}"><i class="fa fa-user fa-fw"></i> {{$admin->nome}}</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                            <li><a href="{{url('painel/dados-admin')}}"><i class="fa fa-gear fa-fw"></i> Alterar Cadastro</a>
                             </li>
                             <li class="divider"></li>
                             <li><a href="{{URL::asset('painel/sair')}}"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
@@ -174,6 +174,14 @@ alert ("{!! session('ped_alt') !!}")
 location.reload(); 
 </script> 
 @endif
+
+@if(Session::has('status_adm'))
+<script LANGUAGE="JavaScript" TYPE="text/javascript">
+alert ("{!! session('status_adm') !!}")
+location.reload(); 
+</script> 
+@endif
+
 
 <!--     Canvas Charts JavaScript -->         
 <script src="{{URL::asset('admin/js/canvas/canvasjs.min.js')}}"></script>

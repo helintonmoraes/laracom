@@ -11,8 +11,17 @@ use Laracom\Models\Cliente as Cliente;
 
 class PedidoController extends Controller {
     
+    function getCont(){
+        $cont['entregue'] = Pedido::where('status','Entregue e Finalizado!')->count();
+        $cont['ag_envio'] = Pedido::where('status','Aguardando envio, pedido pago!')->count();
+        $cont['pen_pgto'] = Pedido::where('status','Aguardando Pagamento!')->count();
+        $cont['enviado'] = Pedido::where('status','Pedido Enviado!')->count();
+        return $cont;
+    }
+    
     function getIndex() {
-        return view('painel.pedido.inicio-pedidos');
+        $cont = $this->getCont();
+        return view('painel.pedido.inicio-pedidos',compact('cont'));
     }
    function getListagemDePedidos($id) {
         $cliente = Cliente::find($id);
@@ -41,46 +50,47 @@ class PedidoController extends Controller {
     }
   
     function getListarPedidos($opcao) {
+        $cont = $this->getCont();
         switch ($opcao) {
             case 1:
                 $pedidos = Pedido::where('status', 'Aguardando envio, pedido pago!')->paginate(10);
                 $cor = '#d9534f';
                 $status = "Aguardando Envio!!!";
-                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status'));
+                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 2:
                 $pedidos = Pedido::where('status', 'Aguardando Pagamento!')->paginate(10);
                 $cor = '#FE9A2E';
                 $status = 'Aguardando Pagamento...';
-                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status'));
+                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 3:
                 $pedidos = Pedido::where('status', 'Pedido Enviado!')->paginate(10);
                 $status = 'Pedido Enviado!!!';
                 $cor = '#2E64FE';
-                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status'));
+                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 4:
                 $pedidos = Pedido::where('status', 'Entregue e Finalizado!')->paginate(10);
                 $status = 'Pedidos Entregues';
                 $cor = '#00FF40';
-                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status'));
+                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 5 :
                 $pedidos = Pedido::paginate(10);
                 $cor = '#EFFBFB';
                 $status = 'Todos os Pedidos';
-                return view('gestao.inicio-pedidos', compact('pedidos', 'cor','status'));
+                return view('gestao.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
             case 6 :
                 $pedidos = Pedido::where('status', 'Aguardando envio, pedido pago!')->orWhere('status', 'Aguardando pagamento')->paginate(10);
                 $status = 'Pedidos Pendentes';
                 $cor = '#FCECED';
-                return view('painel.pedidos.inicio-pedidos', compact('pedidos', 'cor','status'));
+                return view('painel.pedidos.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
             case 7 :
                 $pedidos = Pedido::where('status', 'Enviado para entrega')->orWhere('status', 'Pedido entregue')->paginate(10);
                 $status = 'Pedidos Confirmados';
                 $cor = '#ECFCED';
-                return view('painel.pedidos.inicio-pedidos', compact('pedidos', 'cor','status'));
+                return view('painel.pedidos.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
         }
     }
     
