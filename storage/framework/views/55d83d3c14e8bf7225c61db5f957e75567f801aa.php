@@ -3,19 +3,19 @@
       <div style="border-radius:10px"class="grid_1_of_5 images_1_of_4">
           <h2 style="margin-bottom:10px">Total de Pontos</h2>
         <img src="<?php echo e(URL::asset('loja/images/icons/money-bag.png')); ?>" alt="Meus Pedidos"/>
-        <h1 style="font-size:2em;"><?php echo e($cliente->saldo_pontos); ?> pts</h1>
+        <h1 style="font-size:2em;"><?php echo e(number_format($cliente->saldo_pontos, 0, ',', '.')); ?> pts</h1>
     </div>
     
     <div style="border-radius:10px"class="grid_1_of_5 images_1_of_4">
        <h2 style="margin-bottom:10px">Pontos Consumidos</h2>
         <img src="<?php echo e(URL::asset('loja/images/icons/website.png')); ?>" alt="Meus Pedidos"/>
-        <h1 style="font-size:2em;"><?php echo e($cliente->pontos_usados); ?> pts</h1>
+        <h1 style="font-size:2em;"><?php echo e(number_format($cliente->pontos_usados, 0, ',', '.')); ?> pts</h1>
     </div>
     
     <div style="border-radius:10px"class="grid_1_of_5 images_1_of_4">
        <h2 style="margin-bottom:10px">Saldo em R$</h2>
         <img src="<?php echo e(URL::asset('loja/images/icons/coins-2.png')); ?>" alt="Meus Pedidos"/>
-        <h1 style="font-size:2em;">R$<?php echo e($saldo_real); ?></h1>
+        <h1 style="font-size:2em;">R$<?php echo e(number_format($saldo_real, 2, ',', '.')); ?></h1>
     </div>
     <?php if($resgate == FALSE): ?>
     <div style="border-radius:10px;background-color:#dddddd;"class="grid_1_of_5 images_1_of_4">

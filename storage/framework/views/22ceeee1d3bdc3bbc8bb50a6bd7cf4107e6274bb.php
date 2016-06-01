@@ -45,62 +45,63 @@
                                     </td>
                                     <td><?php echo e($produto->qtd_estoque); ?></td>
                                     <td>
-                                          <div id="add-estoque<?php echo e($produto->id); ?>" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Alterar Estoque</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Estoque Atual:<?php echo e($produto->qtd_estoque); ?></p>
-                                        <p>Quantos <?php echo e($produto->nome); ?> você deseja adicionar?</p>
-                                        
-                                        <?php echo e(Form::open(['url' => "painel/altera-estoque", 'files' => true,'id' => 'file-upload', 'class' => 'upload'])); ?>
+                                        <div id="add-estoque<?php echo e($produto->id); ?>" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                        <h4 class="modal-title">Atualizar Estoque</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        
+                                                        <p>Informe a quantidade do estoque deste produto!</p>
 
-                                        <div class="form-group">
-                                        <?php echo e(Form::hidden('id',$produto->id,['class'=>'form-control'])); ?>
+                                                        <?php echo e(Form::open(['url' => "painel/altera-estoque", 'files' => true,'id' => 'file-upload', 'class' => 'upload'])); ?>
 
-                                        <?php echo e(Form::text('qtd_estoque',null,['class'=>'form-control'])); ?>
+                                                        <div class="form-group">
+                                                            <?php echo e(Form::hidden('id',$produto->id,['class'=>'form-control'])); ?>
 
-                                         <?php if($errors->has('qtd_estoque')): ?>                  
-                                         <p class="text-danger"><?php echo $errors->first('qtd_estoque'); ?></p>
-                                         <?php endif; ?> 
-                                        
+                                                            
+                                                            <?php echo e(Form::number('qtd_estoque',isset($produto->qtd_estoque)? $produto->qtd_estoque:null,['style'=>'width:200px;','class'=>'form-control'])); ?>
+
+                                                            <?php if($errors->has('qtd_estoque')): ?>                  
+                                                            <p class="text-danger"><?php echo $errors->first('qtd_estoque'); ?></p>
+                                                            <?php endif; ?> 
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" data-dismiss="modal" class="btn default">Cancelar</button>
+                                                            <button type="submit" class="btn btn-default">Atualizar</button>
+                                                        </div>
+                                                        <?php echo e(Form::close()); ?>
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                     <div class="modal-footer">
-                                        <button type="button" data-dismiss="modal" class="btn default">Cancelar</button>
-                                        <button type="submit" class="btn btn-default">Adicionar</button>
-                                    </div>
-                                       <?php echo e(Form::close()); ?>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                                        <a href="#add-estoque<?php echo e($produto->id); ?>" role="button" data-toggle="modal" class="deletar"><i class="glyphicon glyphicon-trash"></i></a>
+                                        <a href="#add-estoque<?php echo e($produto->id); ?>" role="button" data-toggle="modal" class="deletar"><i class="glyphicon glyphicon-open"></i></a>
 
                                     </td>
                                 </tr>
-                           
+
                                 <?php endforeach; if ($__empty_1): ?>
                                 <?php endif; ?>
                             </tbody>
-                            <a href="adicionar-produto"><button type="button"  class="btn btn-success">Novo Produto</button></a>
+
                         </table>
                         <?php echo e($produtos->links()); ?>
 
 
 
-                        
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-   
 
-    <?php $__env->stopSection(); ?>
+
+        <?php $__env->stopSection(); ?>
 <?php echo $__env->make('painel.layouts.menu', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php echo $__env->make('painel.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

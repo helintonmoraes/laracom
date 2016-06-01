@@ -18,7 +18,7 @@
 
 
     <a href="#">
-        <tr style="background-color: <?php echo e($cor); ?>;">
+        <tr style="<?php echo e($cor); ?>">
             <td><?php echo e($pedido->external_reference); ?></td>
             <td><?php echo e($pedido->status); ?></td>
             <td><?php echo e($pedido->data_pedido); ?></td>

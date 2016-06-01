@@ -1,6 +1,7 @@
 @extends('loja.layouts.master')
 
 @section('content')
+
 <div class="section group">
     <div class="table-responsive cart_info">
             
@@ -58,6 +59,7 @@
                         
 
                     </tr>
+                    {!!$pedidos->links() !!}
                     @empty
                     @endforelse
                              
@@ -65,6 +67,9 @@
                 
                 </tbody>
             </table>
+        
+             
+       
         </div>
 </div>
 @endsection

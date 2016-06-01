@@ -17,14 +17,7 @@
         <a href="<?php echo e(url('cliente/cartao-fid')); ?>"><img width="50%"src="<?php echo e(URL::asset('loja/images/icons/fidel_c.png')); ?>" alt="Meus Pedidos"/></a>
         <h3>Cartão Fidelidade</h3>
     </div>
-    <div style="border-radius:10px"class="grid_1_of_5 images_1_of_4">
-        <a href="#"><img width="50%"src="<?php echo e(URL::asset('loja/images/icons/tool-1.png')); ?>" alt="Minhas Compras"/></a>
-        <h3>Compras Finalizadas</h3>
-    </div>
-    <div style="border-radius:10px"class="grid_1_of_5 images_1_of_4">
-        <a href="#"><img width="50%"src="<?php echo e(URL::asset('loja/images/icons/transport.png')); ?>" alt="Rastrear"/></a>
-        <h3>Rastrear Pedidos</h3>
-    </div>
+
     <div style="border-radius:10px"class="grid_1_of_5 images_1_of_4">
         <a href="<?php echo e(url('cart/ver-carrinho')); ?>"><img width="50%"src="<?php echo e(URL::asset('loja/images/icons/tool.png')); ?>" alt="MeuCarrinho"/></a>
         <h3>Meu Carrinho</h3>

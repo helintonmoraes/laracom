@@ -22,7 +22,7 @@
             </li>
             <li>
             <li>
-                <a href="#"><i class="fa fa-camera-retro"></i> SubCategorias<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-camera-retro"></i> Categorias<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 
                     <li>
@@ -78,15 +78,9 @@
                         <a href="<?php echo e(URL::asset('painel/estoque-categoria')); ?>">Estoque por Categoria</a>
                     </li>
                     <li>
-                        <a href="#">Por Marca</a>
+                        <a href="<?php echo e(URL::asset('painel/top-cliente')); ?>">Top 5 - Clientes</a>
                     </li>
-                    <li>
-                        <a href="#">Por Preço</a>
-                    </li>
-
-                    <li>
-                        <a href="#">Por Data</a>
-                    </li>
+               
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -128,6 +122,12 @@
                         <a href="#">Excluir</a>
                     </li>
                 </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <li>
+                <a href="<?php echo e(url('painel/boletos-ativos')); ?>"><i class="fa fa-cc-mastercard"></i> Boletos Ativos<span class="fa arrow"></span></a>
+
                 <!-- /.nav-second-level -->
             </li>
 

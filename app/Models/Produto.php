@@ -16,6 +16,7 @@ class Produto extends Model {
             'descricao' => 'required',
             'especificacao' => 'required',
             'resumo' => 'required',
+            'imagem_1'=>'mimes:jpeg,bmp,png|required',
             
         ];
     static $messages = [
@@ -26,6 +27,8 @@ class Produto extends Model {
             'preco_venda.required'     => 'Informe o preço do produto.', 
             'id_categoria.required'    => 'Escolha um categoria',
             'id_subcategoria.required' => 'Escolha uma subcategoria',
+            'imagem_1.required'        => 'A imagem de capa é obrigatória',
+            'imagem_1.mimes'        => 'A imagem da capa deve conter um arquivo do tipo: jpeg, bmp, png.',
 ];
     
     

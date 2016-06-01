@@ -4,6 +4,7 @@ namespace Laracom\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laracom\Http\Requests;
+use DB;
 use Laracom\Models\Produto as Produto;
 use Laracom\Models\Pedido as Pedido;
 use Laracom\Models\Carrinho;
@@ -49,31 +50,31 @@ class PedidoController extends Controller {
         return $arrayDeProdutos;
     }
   
-    function getListarPedidos($opcao) {
+    function getListarPedidos($opcao,Request $request) {
         $cont = $this->getCont();
         switch ($opcao) {
             case 1:
                 $pedidos = Pedido::where('status', 'Aguardando envio, pedido pago!')->paginate(10);
-                $cor = '#d9534f';
+                $cor = 'background-color:#d9534f;color:#ffffff';
                 $status = "Aguardando Envio!!!";
                 return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 2:
                 $pedidos = Pedido::where('status', 'Aguardando Pagamento!')->paginate(10);
-                $cor = '#FE9A2E';
+                $cor = 'background-color:#f0ad4e;color:#ffffff';
                 $status = 'Aguardando Pagamento...';
                 return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 3:
                 $pedidos = Pedido::where('status', 'Pedido Enviado!')->paginate(10);
                 $status = 'Pedido Enviado!!!';
-                $cor = '#2E64FE';
+                $cor = 'background-color:#286090;color:#ffffff';
                 return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 4:
                 $pedidos = Pedido::where('status', 'Entregue e Finalizado!')->paginate(10);
                 $status = 'Pedidos Entregues';
-                $cor = '#00FF40';
+                $cor = 'background-color:#449d44;color:#ffffff';
                 return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
                 break;
             case 5 :
@@ -91,6 +92,21 @@ class PedidoController extends Controller {
                 $status = 'Pedidos Confirmados';
                 $cor = '#ECFCED';
                 return view('painel.pedidos.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
+            case 8 :
+                if($request['atributo'] == 'valor_pedido'){
+                    
+                    
+                    $pedidos= Pedido::where("valor_pedido",'>',$request['parametro'])->where("valor_pedido",'<',$request['parametro2'])->paginate(10);
+                   
+                    
+                }
+                if($request['atributo'] == 'data_pedido'){
+                    $pedidos = Pedido::where($request['atributo'], $request['parametro'])->paginate(10);
+                }
+
+                $status = 'Resultados de Busca';
+                $cor = 'background-color:#449d44;color:#ffffff';
+                return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
         }
     }
     
@@ -101,6 +117,13 @@ class PedidoController extends Controller {
                 $dados = Carrinho::where('id_pedido',$request['external_reference'])->get();
                 foreach($dados as $d){
                     $estoque = Produto::find($d->id_produto)->qtd_estoque;
+                    //Creditando pontos
+                    $query = Pedido::where('external_reference',$d->id_pedido)->get(); 
+                    $bonus = $query[0]['valor_total'];
+                    $cliente = $query[0]['id_cliente'];
+                    $atual = (Cliente::find($cliente)->saldo_pontos)+$bonus;
+                    Cliente::where('id',$cliente)->update(array('saldo_pontos'=> $atual));
+                    Produto::where('id',$d->id_produto)->update(array('qtd_estoque'=>$estoque-$d->qty));
                     Produto::where('id',$d->id_produto)->update(array('qtd_estoque'=>$estoque-$d->qty));
                     Pedido::where('external_reference',$request['external_reference'])->update(array('saida_estoque'=>TRUE));
                 }
@@ -111,6 +134,7 @@ class PedidoController extends Controller {
         }
         if($request['status']=='Aguardando Pagamento!'){
             Pedido::where('id',$request['id_pedido'])->update(array('status'=>'Aguardando Pagamento!','entrega'=>'Pendente'));
+            \Session::flash('ped_alt','A situação do pedido foi alterada!');
             return back();
         }
         if($request['status']=='Aguardando envio, pedido pago!'){
@@ -118,7 +142,12 @@ class PedidoController extends Controller {
                 $dados = Carrinho::where('id_pedido',$request['external_reference'])->get();
                 foreach($dados as $d){
                     $estoque = Produto::find($d->id_produto)->qtd_estoque;
-                    $pontos = 
+                    //Creditando pontos
+                    $query = Pedido::where('external_reference',$d->id_pedido)->get(); 
+                    $bonus = $query[0]['valor_total'];
+                    $cliente = $query[0]['id_cliente'];
+                    $atual = (Cliente::find($cliente)->saldo_pontos)+$bonus;
+                    Cliente::where('id',$cliente)->update(array('saldo_pontos'=> $atual));
                     Produto::where('id',$d->id_produto)->update(array('qtd_estoque'=>$estoque-$d->qty));
                     
                     Pedido::where('external_reference',$request['external_reference'])->update(array('saida_estoque'=>TRUE));
@@ -133,6 +162,13 @@ class PedidoController extends Controller {
                 $dados = Carrinho::where('id_pedido',$request['external_reference'])->get();
                 foreach($dados as $d){
                     $estoque = Produto::find($d->id_produto)->qtd_estoque;
+                    Produto::where('id',$d->id_produto)->update(array('qtd_estoque'=>$estoque-$d->qty));
+                    //Creditando pontos
+                    $query = Pedido::where('external_reference',$d->id_pedido)->get(); 
+                    $bonus = $query[0]['valor_total'];
+                    $cliente = $query[0]['id_cliente'];
+                    $atual = (Cliente::find($cliente)->saldo_pontos)+$bonus;
+                    Cliente::where('id',$cliente)->update(array('saldo_pontos'=> $atual));
                     Produto::where('id',$d->id_produto)->update(array('qtd_estoque'=>$estoque-$d->qty));
                     Pedido::where('external_reference',$request['external_reference'])->update(array('saida_estoque'=>TRUE));
                 }

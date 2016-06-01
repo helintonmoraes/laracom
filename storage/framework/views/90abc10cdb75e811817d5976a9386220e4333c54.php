@@ -48,7 +48,7 @@
                         <ul>
                             
                             <li><a href="<?php echo e(url('cliente/sair')); ?>">Logout</a></li>
-                            <li><a href="#">Rastrear Pedido</a></li>					
+                            <li><a href="<?php echo e(url('cliente/pedidos')); ?>">Meus Pedidos</a></li>					
                             <li><a href="<?php echo e(url('cliente')); ?>">Minha Conta</a></li>
                         </ul>
                         <?php else: ?>

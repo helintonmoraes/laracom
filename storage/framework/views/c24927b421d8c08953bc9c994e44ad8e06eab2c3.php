@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3>Gestor de Pedidos</h3>
+                <h3>Boletos Ativos no MP</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -11,7 +11,6 @@
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
-
                                 <tr>
                                     <th>Código</th>
                                     <th>Valor</th>
@@ -25,19 +24,19 @@
                                 <tr class="odd gradeX">
                                     <td> <?php echo e($pedido['collection']['id']); ?></td> 
                                     <td>R$ <?php echo e(number_format($pedido['collection']['total_paid_amount'], 2, ',', '.')); ?></td>
-                                    
+
                                     <td> <?php echo e($pedido['collection']['date_created']); ?></td> 
-                                   
-                                        <?php if( $pedido['collection']['status'] == 'cancelled'): ?>
-                                            <td> Cancelado</td>
-                                        <?php endif; ?>
-                            
-                                        <?php if( $pedido['collection']['status'] == 'pending'): ?>
-                                            <td> Pendente Pagamento</td>
-                                        <?php endif; ?>
-                                    
+
+                                    <?php if( $pedido['collection']['status'] == 'cancelled'): ?>
+                                    <td> Cancelado</td>
+                                    <?php endif; ?>
+
+                                    <?php if( $pedido['collection']['status'] == 'pending'): ?>
+                                    <td> Pendente Pagamento</td>
+                                    <?php endif; ?>
+
                                     <td>
-                                        <a href="editar-produto/<?php echo e($pedido['collection']['id']); ?>" class="edit"><i class="fa fa-pencil"></i></a>
+                                        <a href="/pedido/detalhar-pedido/<?php echo e($pedido['collection']['external_reference']); ?>" class="edit"><i class="fa fa-pencil"></i></a>
                                         <a href="#deletar-dado" role="button" data-toggle="modal" onclick="deletaDado(<?php echo e($pedido['collection']['id']); ?>)" class="deletar"><i class="glyphicon glyphicon-trash"></i></a>
 
                                     </td>
@@ -45,9 +44,9 @@
                                 <?php endforeach; if ($__empty_1): ?>
                                 <?php endif; ?>
                             </tbody>
-                            
+
                         </table>
-                        
+
 
 
                         <div id="deletar-dado" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
@@ -58,11 +57,11 @@
                                         <h4 class="modal-title">Confirmação</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Deseja realmente excluir este registro?</p>
+                                        <p>Deseja cancelar o boleto deste pedido?</p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" data-dismiss="modal" class="btn default">Cancelar</button>
-                                        <a id="confirmaDelecao" class="btn red">Apagar</a>
+                                        <a id="confirmaDelecao" class="btn default">Apagar</a>
                                     </div>
                                 </div>
                             </div>
@@ -82,9 +81,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <?php $__env->stopSection(); ?>
 <?php echo $__env->make('painel.layouts.menu', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

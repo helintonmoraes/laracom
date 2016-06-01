@@ -302,7 +302,7 @@ class ClienteController extends Controller {
 
                     //Com este status o pedido é atualizado no DB para Pagamento não confirmado
                     //que significa que o cliente emitiu o boleto mas ainda não compensou o pagamento.
-                    Pedido::where('external_reference', $pedido->external_reference)->update(array('boleto_emitido' => TRUE, 'status' => 'Pagamento não confirmado'));
+                    Pedido::where('external_reference', $pedido->external_reference)->update(array('boleto_emitido' => TRUE, 'status' => 'Aguardando Pagamento!'));
                 }
             }
             if ($pedido->pref_id == 'Gratis') {
@@ -310,7 +310,7 @@ class ClienteController extends Controller {
             }
 
 
-            $pedidos = Pedido::where('id_cliente', $id)->get();
+            $pedidos = Pedido::where('id_cliente', $id)->orderBy('id')->paginate(8);
         }
 
 
@@ -330,7 +330,7 @@ class ClienteController extends Controller {
             $search_result = MP::search_payment($filters, 1, 1);
 
             if ($search_result['response']['paging']['total'] == 1) {
-                Pedido::where('external_reference', $id)->update(array('boleto_emitido' => TRUE, 'status' => 'Pagamento não confirmado'));
+                Pedido::where('external_reference', $id)->update(array('boleto_emitido' => TRUE, 'status' => 'Aguardando Pagamento!'));
             }
         }
 

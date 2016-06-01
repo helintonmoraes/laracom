@@ -36,8 +36,8 @@ return [
     ],
     
     'facebook' => [
-        'client_id' => '271295806549887',
-        'client_secret' => '42df3ae3b4e4a81f380ba51daae8dda1',
+        'client_id' => '1101473613259182',
+        'client_secret' => '5d23f7fcdb7e43df90a9e50b27d2c058',
         'redirect' => 'http://www.laracom.dev/facebook/callback',
     ],
 

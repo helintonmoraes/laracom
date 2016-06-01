@@ -1,4 +1,5 @@
 <?php $__env->startSection('content'); ?>
+
 <div class="section group">
     <div class="table-responsive cart_info">
             
@@ -56,6 +57,8 @@
                         
 
                     </tr>
+                    <?php echo $pedidos->links(); ?>
+
                     <?php endforeach; if ($__empty_1): ?>
                     <?php endif; ?>
                              
@@ -63,6 +66,9 @@
                 
                 </tbody>
             </table>
+        
+             
+       
         </div>
 </div>
 <?php $__env->stopSection(); ?>

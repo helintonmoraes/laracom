@@ -15991,7 +15991,7 @@
 		},
 		formatNumber: function (number, formatString, culture) {
 			culture = culture || "en";
-			formatString = formatString || "#,##0.##";
+			formatString = formatString || "#,###.00";
 
 			if (!cultures[culture])
 				throw "Unknown Culture Name";

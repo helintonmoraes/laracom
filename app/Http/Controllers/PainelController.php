@@ -22,7 +22,7 @@ class PainelController extends Controller {
         $produtos = DB::table('produto')->paginate(5);
         $clientes = DB::table('cliente')->paginate(5);
         $estoque = Produto::all();
-        
+        $pedidos = Pedido::all()->count();
         $total = 0;
         foreach($estoque as $e){
             $total = $e->qtd_estoque + $total;
@@ -30,7 +30,7 @@ class PainelController extends Controller {
 //         dd($total);
         $marcas = DB::table('marca')->paginate(5);
         $categorias = DB::table('categoria')->where('id_pai','>', 0)->paginate(8);
-        return view('painel.index', compact('produtos', 'marcas','categorias','clientes','total'));
+        return view('painel.index', compact('produtos', 'marcas','categorias','clientes','total','pedidos'));
     }
 
     //........................Painel Categoria....................................//
@@ -223,7 +223,7 @@ class PainelController extends Controller {
         $dadosForm['imagem_5'] = $img_5;
         $dadosForm['imagem_6'] = $img_6;        
         $dadosForm['qtd_avalicao'] = '10';
-        $dadosForm['qtd_estoque'] = '10';
+        $dadosForm['qtd_estoque'] = '0';
         $dadosForm['id_marca'] = '1';
         $dadosForm['cont'] = $cont;        
         Produto::insert($dadosForm);
@@ -262,7 +262,7 @@ class PainelController extends Controller {
     
     
     //Gestor de Pedidos
-    public function getPedidos(){
+    public function getBoletosAtivos(){
         
         $filters = array(               
                "external_reference" => null,
@@ -274,12 +274,13 @@ class PainelController extends Controller {
         //Retorno da busca
         
         $pedidos = $search_result['response']['results'];
+    
         return view('painel.pedido.pedidos',compact ('pedidos'));
     }
     
     public function getDeletarPedido($id){
         $result = MP::cancel_payment($id);
-        return redirect('painel/pedidos');
+        return redirect('painel/boletos-ativos');
     }
     
     public function getEstoque($estoque) {
@@ -310,7 +311,7 @@ class PainelController extends Controller {
         } 
     }
     public function postAlteraEstoque(Request $request){        
-        $estoque = (Produto::find($request->id)->qtd_estoque+$request->qtd_estoque);
+        $estoque = $request->qtd_estoque;
         $id = $request->id;
         Produto::where('id',$id)->update(array('qtd_estoque'=> $estoque));
         \Session::flash('estoque_ok','O estoque foi atualizado com sucesso!');
@@ -328,53 +329,7 @@ class PainelController extends Controller {
         return view('painel.clientes.detalhes-do-cliente', compact('cliente'));
     }
     //Gráfico de Estoque por Categoria
-    function getEstoqueCategoria() {
-        $cat_1 = Produto::where('id_categoria',1)->get();
-        $cat_2 = Produto::where('id_categoria',2)->get();
-        $cat_3 = Produto::where('id_categoria',3)->get();
-        $cat_4 = Produto::where('id_categoria',4)->get();
-        $cat_5 = Produto::where('id_categoria',5)->get();
-        $cat_6 = Produto::where('id_categoria',6)->get();
-        $cat_7 = Produto::where('id_categoria',7)->get();
-        //Estoque por Categorias
-        $x1 = 0;
-        foreach($cat_1 as $c1){
-            $x1 = $c1->qtd_estoque +$x1;
-        }
-        
-        $x2 = 0;
-        foreach($cat_2 as $c2){
-            $x2 = $c2->qtd_estoque +$x2;
-        }
-        
-        $x3 = 0;
-        foreach($cat_3 as $c3){
-            $x3 = $c3->qtd_estoque +$x3;
-        }
-        
-        $x4 = 0;
-        foreach($cat_4 as $c4){
-            $x4 = $c4->qtd_estoque +$x4;
-        }
-        
-        $x5 = 0;
-        foreach($cat_5 as $c5){
-            $x5 = $c5->qtd_estoque +$x5;
-        }
-        
-        $x6 = 0;
-        foreach($cat_6 as $c6){
-            $x6 = $c6->qtd_estoque +$x6;
-        }
-        
-        $x7 = 0;
-        foreach($cat_7 as $c7){
-            $x7 = $c7->qtd_estoque +$x7;
-        }
-        
-        return view('painel.relatorios',compact('x1','x2','x3','x4','x5','x6','x7'));
-    }
-//   SELECT count(*) as NrVezes, id_cliente FROM pedidos GROUP BY id_cliente ORDER BY NrVezes DESC
+    
     public function getSair(Request $request) {
         $request->session()->forget('admin');
         $request->session()->forget('dados_admin');
@@ -407,4 +362,54 @@ class PainelController extends Controller {
         $request->session()->flash('status_adm',$msg);
         return redirect()->back(); 
     }
+    
+    function getEstoqueCategoria() {
+        $cat_1 = Produto::where('id_categoria',1)->get();
+        $cat_2 = Produto::where('id_categoria',2)->get();
+        $cat_3 = Produto::where('id_categoria',3)->get();
+        $cat_4 = Produto::where('id_categoria',4)->get();
+        $cat_5 = Produto::where('id_categoria',5)->get();
+        $cat_6 = Produto::where('id_categoria',6)->get();
+        $cat_7 = Produto::where('id_categoria',7)->get();
+        //Estoque por Categorias
+        $x1 = 0;
+        foreach($cat_1 as $c1){
+            $x1 = $c1->qtd_estoque +$x1;
+        }        
+        $x2 = 0;
+        foreach($cat_2 as $c2){
+            $x2 = $c2->qtd_estoque +$x2;
+        }        
+        $x3 = 0;
+        foreach($cat_3 as $c3){
+            $x3 = $c3->qtd_estoque +$x3;
+        }        
+        $x4 = 0;
+        foreach($cat_4 as $c4){
+            $x4 = $c4->qtd_estoque +$x4;
+        }        
+        $x5 = 0;
+        foreach($cat_5 as $c5){
+            $x5 = $c5->qtd_estoque +$x5;
+        }        
+        $x6 = 0;
+        foreach($cat_6 as $c6){
+            $x6 = $c6->qtd_estoque +$x6;
+        }        
+        $x7 = 0;
+        foreach($cat_7 as $c7){
+            $x7 = $c7->qtd_estoque +$x7;
+        }        
+        
+       
+        return view('painel.graficos.estoque',compact('x1','x2','x3','x4','x5','x6','x7'));
+    }
+    public function getTopCliente(){
+        $clientes = Cliente::all();
+        $result = DB::select( DB::raw("SELECT count(*) as compras,SUM(valor_total), id_cliente FROM pedidos where valor_total > 0 AND (status=('Aguardando envio, pedido pago!') OR status=('Entregue e Finalizado!') OR status=('Pedido Enviado!'))GROUP BY id_cliente ORDER BY sum DESC limit 5"));
+      
+        return view('painel.graficos.top_clientes',compact('clientes','result'));
+    }
+    
+    
 }

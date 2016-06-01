@@ -1829,9 +1829,9 @@ body {
     padding: 0;
 }
 
-ul.pagination_2 li {display: inline;}
+ul.pagination li {display: inline;}
 
-ul.pagination_2 li.active {
+ul.pagination li.active {
     color: #FFF;
     float: left;
     background:#CD1F25;
@@ -1841,7 +1841,7 @@ ul.pagination_2 li.active {
 }
 
 
-ul.pagination_2 li.disabled {
+ul.pagination li.disabled {
     color: black;
     float: left;
     padding: 8px 16px;
@@ -1849,7 +1849,7 @@ ul.pagination_2 li.disabled {
     border: 1px solid #ddd; /* Gray */
 }
 
-ul.pagination_2 li a {
+ul.pagination li a {
     color: black;
     float: left;
     padding: 8px 16px;

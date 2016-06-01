@@ -5,7 +5,7 @@
     <div class="content">
         <div class="section group">
             <div class="col span_2_of_3">
-                <div class="contact-form">
+                <div class="contact-form" style="margin-left:50%">
                     
                     {{Form::open(['url' => "/registro",'class'=>'add-cart'])}}
                     <div>

@@ -63,6 +63,9 @@
                             <label>Imagem Capa</label>
                             <?php echo e(Form::file('imagem_1')); ?> 
                         </div>
+                             <?php if($errors->has('imagem_1')): ?>                  
+                                <p class="text-danger"><?php echo $errors->first('imagem_1'); ?></p>
+                            <?php endif; ?>
                         <div class="form-group">
                             <label>Imagem 2</label>
                             <input name="imagem_2" type="file">

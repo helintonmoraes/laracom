@@ -18,7 +18,7 @@
 
 
     <a href="#">
-        <tr style="background-color: {{$cor}};">
+        <tr style="{{$cor}}">
             <td>{{$pedido->external_reference}}</td>
             <td>{{$pedido->status}}</td>
             <td>{{$pedido->data_pedido}}</td>

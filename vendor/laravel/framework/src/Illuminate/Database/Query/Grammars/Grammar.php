@@ -309,6 +309,20 @@ class Grammar extends BaseGrammar
     }
 
     /**
+     * Compile a where clause comparing two columns..
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  array  $where
+     * @return string
+     */
+    protected function whereColumn(Builder $query, $where)
+    {
+        $second = $this->wrap($where['second']);
+
+        return $this->wrap($where['first']).' '.$where['operator'].' '.$second;
+    }
+
+    /**
      * Compile a "between" where clause.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
@@ -584,6 +598,17 @@ class Grammar extends BaseGrammar
 
             return $this->wrap($order['column']).' '.$order['direction'];
         }, $orders));
+    }
+
+    /**
+     * Compile the random statement into SQL.
+     *
+     * @param  string  $seed
+     * @return string
+     */
+    public function compileRandom($seed)
+    {
+        return 'RANDOM()';
     }
 
     /**

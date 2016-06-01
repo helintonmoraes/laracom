@@ -48,7 +48,7 @@
                         <ul>
                             
                             <li><a href="{{url('cliente/sair')}}">Logout</a></li>
-                            <li><a href="#">Rastrear Pedido</a></li>					
+                            <li><a href="{{url('cliente/pedidos')}}">Meus Pedidos</a></li>					
                             <li><a href="{{url('cliente')}}">Minha Conta</a></li>
                         </ul>
                         @else

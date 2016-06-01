@@ -199,11 +199,15 @@ abstract class AbstractProvider implements ProviderContract
             throw new InvalidStateException;
         }
 
+        $response = $this->getAccessTokenResponse($this->getCode());
+
         $user = $this->mapUserToObject($this->getUserByToken(
-            $token = $this->getAccessToken($this->getCode())
+            $token = array_get($response, 'access_token')
         ));
 
-        return $user->setToken($token);
+        return $user->setToken($token)
+                    ->setRefreshToken(array_get($response, 'refresh_token'))
+                    ->setExpiresIn(array_get($response, 'expires_in'));
     }
 
     /**
@@ -236,12 +240,12 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the access token for the given code.
+     * Get the access token response for the given code.
      *
      * @param  string  $code
-     * @return string
+     * @return array
      */
-    public function getAccessToken($code)
+    public function getAccessTokenResponse($code)
     {
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
@@ -250,7 +254,7 @@ abstract class AbstractProvider implements ProviderContract
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -265,17 +269,6 @@ abstract class AbstractProvider implements ProviderContract
             'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
             'code' => $code, 'redirect_uri' => $this->redirectUrl,
         ];
-    }
-
-    /**
-     * Get the access token from the token response body.
-     *
-     * @param  string  $body
-     * @return string
-     */
-    protected function parseAccessToken($body)
-    {
-        return json_decode($body, true)['access_token'];
     }
 
     /**

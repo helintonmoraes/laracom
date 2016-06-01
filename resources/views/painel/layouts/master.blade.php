@@ -27,13 +27,7 @@
 
         <!-- Custom Fonts -->
         <link href="{{URL::asset('admin/bower_components/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="{{URL::asset('http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css')}}">
 
     </head>
 
@@ -75,14 +69,14 @@
                             </li>
                             <li class="divider"></li>
                             @empty
-                              <li>
+                            <li>
                                 <a class="text-center" href="#">
                                     <strong>Não possui contatos</strong>
                                     <i class="fa fa-angle-right"></i>
                                 </a>
                             </li>
                             @endforelse
-                            
+
                             @if(isset($contato))
                             <li>
                                 <a class="text-center" href="#">
@@ -95,9 +89,9 @@
                         <!-- /.dropdown-messages -->
                     </li>
                     <!-- /.dropdown -->
-                    
+
                     <!-- /.dropdown -->
-                    
+
                     <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -116,8 +110,8 @@
                     </li>
                     <!-- /.dropdown -->
                 </ul>
-               
-                
+
+
 
                 <!-- /.navbar-static-side -->
             </nav>
@@ -125,21 +119,21 @@
             <div id="page-wrapper">
                 <div class="row">
                     @yield('content')
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
+
+
                 </div>
 
 
             </div>
-            
-            
-            
-            
+
+
+
+
             <!-- jQuery -->
             <script src="{{URL::asset('admin/bower_components/jquery/dist/jquery.min.js')}}"></script>
 
@@ -149,40 +143,62 @@
             <!-- Metis Menu Plugin JavaScript -->
             <script src="{{URL::asset('admin/bower_components/metisMenu/dist/metisMenu.min.js')}}"></script>
 
-           
-            
+
+
             <!-- Custom Theme JavaScript -->
             <script src="{{URL::asset('admin/dist/js/sb-admin-2.js')}}"></script>            
             <script src="{{URL::asset('admin/js/ajax.js')}}"></script>            
             <script src="{{URL::asset('admin/bower_components/datatables/media/js/jquery.dataTables.min.js')}}"></script>
             <script src="{{URL::asset('admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js')}}"></script>
-    </body>
+
+<!--Datapicker-->
+
+<script src="{{URL::asset('admin/datapicker/js/jquery-ui.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#data").datepicker({
+            dateFormat: 'dd/mm/yy',
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            nextText: 'Próximo',
+            prevText: 'Anterior'
+        });
+    });
+</script>
+
 
 </html>
 
 
 @if(Session::has('estoque_ok'))
 <script LANGUAGE="JavaScript" TYPE="text/javascript">
-alert ("{!! session('estoque_ok') !!}")
-location.reload(); 
+alert("{!! session('estoque_ok') !!}")
+location.reload();
 </script> 
 @endif
 
 @if(Session::has('ped_alt'))
 <script LANGUAGE="JavaScript" TYPE="text/javascript">
-alert ("{!! session('ped_alt') !!}")
-location.reload(); 
+    alert("{!! session('ped_alt') !!}")
+    window.location = "/pedido";
 </script> 
 @endif
 
 @if(Session::has('status_adm'))
 <script LANGUAGE="JavaScript" TYPE="text/javascript">
-alert ("{!! session('status_adm') !!}")
-location.reload(); 
+    alert("{!! session('status_adm') !!}")
+    location.reload();
 </script> 
 @endif
 
 
-<!--     Canvas Charts JavaScript -->         
+
+
+
+<!--Canvas Charts JavaScript -->         
 <script src="{{URL::asset('admin/js/canvas/canvasjs.min.js')}}"></script>
 <script src="{{URL::asset('admin/js/canvas/jquery.canvasjs.min.js')}}"></script>

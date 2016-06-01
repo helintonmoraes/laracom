@@ -66,17 +66,28 @@
                         
                     </td>
                     <td>
+                        
                         <div class="add-cart" id="cart">
                             {{Form::open(['url' => "cart/add-cart"])}} 
                             <input type="hidden" name="qty" value="1">
                             @foreach($produtos as $produto)
                             @if($produto->id == $detalhe['id_produto'])
                             <input type="hidden" name="produto_id" value="{{$detalhe['id_produto']}}">
+                            @if($produto['qtd_estoque'] > 0)
+                            <h4><button type="submit" class="add-cart">Comprar Novamente</button></h4>
+                            @else
+                            <h4><button style="background-color:#8B8989;" disabled="TRUE"> Produto Indisponível</button></h4>
+                            @endif
                             @endif
                             @endforeach
-                            <h4><button type="submit" class="add-cart">Comprar Novamente</button></h4>
+                            
                             {{Form::close()}}
                         </div>
+                        
+                         <div class="add-cart" id="cart">
+                            
+                        </div>
+                        
                     </td>
                 </tr>
                 @endforeach 
@@ -95,16 +106,20 @@
         <p>Valor do Desconto: <span style='color:red'>R$ {{$pedido['cartao_desconto']}}</span></p>
         <div style="border:2px solid #a1a1a1;width:120px;border-radius:5px;background: #dddddd;">
             @if($pedido['pref_id']<>'Gratis')
-                @if($pedido['boleto_emitido']==TRUE)        
-                <a target="_blank" href="/cliente/boleto/{{$pedido['external_reference']}}/{{$pedido['pref_id']}}"><img style="margin-left:28px"src="{{URL::asset('loja/images/icons/sign.png')}}" alt="Meus Pedidos"/><p align="center">2ª via de Boleto</p></a>
+                @if($pedido['boleto_emitido']==TRUE) 
+                    @if($pedido['status']=='Aguardando Pagamento!')
+                    <a target="_blank" href="/cliente/boleto/{{$pedido['external_reference']}}/{{$pedido['pref_id']}}"><img style="margin-left:28px"src="{{URL::asset('loja/images/icons/sign.png')}}" alt="Meus Pedidos"/><p align="center">2ª via de Boleto</p></a>
+                    @else
+                    <a href="/cliente/rastreio-detalhado/{{$pedido['external_reference']}}"><img style="margin-left:28px"src="{{URL::asset('loja/images/icons/delivery-truck.png')}}" alt="Meus Pedidos"/><p align="center">Rastrear Pedido!</p></a>
+                    @endif
                 @else
                 <a target="_blank" href="/cliente/boleto/{{$pedido['external_reference']}}/{{$pedido['pref_id']}}"><img style="margin-left:28px"src="{{URL::asset('loja/images/icons/commerce.png')}}" alt="Meus Pedidos"/><p align="center">Pague Agora!</p></a>
-            @endif
-            
+                @endif
+                
             @else
                 <a href="/cliente/rastreio-detalhado/{{$pedido['external_reference']}}"><img style="margin-left:28px"src="{{URL::asset('loja/images/icons/delivery-truck.png')}}" alt="Meus Pedidos"/><p align="center">Rastrear Pedido!</p></a>
             @endif
-
+            
             <div>
             </div>
         </div>
