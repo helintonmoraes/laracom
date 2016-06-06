@@ -25,15 +25,14 @@
 
                     <div>
                         
-                        <span><input type="submit" value="Logar"></span>
-                        <a href="/facebook/redirect">FB Login</a>
+                        <span><input type="submit" value="Logar">
+                        </span>
 
-                        <div id="status">
-                        </div>
                     </div>
                         
                     {{Form::close()}}
-                     <a style="display:block;margin-left:100px;"href="/reset-senha">Esqueci minha senha!</a><a style="display:block;margin-left:100px;"href="/registro">Não Tenho Cadastro!</a>
+                    <a href="/facebook/redirect" style="color: #FFF;background: #3b5998;border: none;float:left;font-size: 0.8em;border-radius:10px;padding:10px 9px;margin-left:2px;margin-right:5px;">Entrar com Facebook</a>
+                     <a style="display:block;margin-left:100px;"href="/reset-senha">Esqueci minha senha!</a><a style="display:block;margin-left:100px;"href="/registro">Faça Seu Cadastro!</a>
                 </div>
 
 @endsection

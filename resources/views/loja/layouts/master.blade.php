@@ -18,10 +18,7 @@
         <script type="text/javascript" src="{{URL::asset('loja/js/easing.js')}}"></script>
         <script type="text/javascript" src="{{URL::asset('loja/js/startstop-slider.js')}}"></script>
         
-        <script src="{{URL::asset('loja/js/slides.min.jquery.js')}}"></script>
-        <script src="{{URL::asset('loja/js/jquery.cycle2.min.js')}}"></script>
-        <script src="{{URL::asset('loja/js/ajax.js')}}"></script>
-        <script src="{{URL::asset('loja/js/easyResponsiveTabs.js')}}" type="text/javascript"></script>
+
         
         <!-- Rating  -->
         <script src="{{URL::asset('loja/rating/js/stars.js')}}" type="text/javascript"></script>
@@ -32,7 +29,10 @@
         <link href="{{URL::asset('loja/rating/js/jquery.rateyo.css')}}" rel="stylesheet" type="text/css" media="all"/>
         
 
-        
+                <script src="{{URL::asset('loja/js/slides.min.jquery.js')}}"></script>
+        <script src="{{URL::asset('loja/js/jquery.cycle2.min.js')}}"></script>
+        <script src="{{URL::asset('loja/js/ajax.js')}}"></script>
+        <script src="{{URL::asset('loja/js/easyResponsiveTabs.js')}}" type="text/javascript"></script>
 
     </head>
     <body>

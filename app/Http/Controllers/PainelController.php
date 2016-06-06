@@ -133,7 +133,47 @@ class PainelController extends Controller {
     }
 
     public function postEditarProduto(Request $request, $id) {
-        $dadosForm = $request->except('_token', 'file','cont');
+        $dadosForm = $request->except('_token','cont');
+        $img_control = Produto::find($id);
+
+        $img_1 = $img_control['imagem_1'];
+        $img_2 = $img_control['imagem_2'];
+        $img_3 = $img_control['imagem_3'];
+        $img_4 = $img_control['imagem_4'];
+        $img_5 = $img_control['imagem_5'];
+        $img_6 = $img_control['imagem_6'];
+        
+        $file_1 = $request->file('imagem_1');
+        $file_2 = $request->file('imagem_2');
+        $file_3 = $request->file('imagem_3');
+        $file_4 = $request->file('imagem_4');
+        $file_5 = $request->file('imagem_5');
+        $file_6 = $request->file('imagem_6');
+        
+        if ($request->hasFile('imagem_1') && $file_1->isValid()) {
+            Storage::disk('local')->put($img_1, file_get_contents($file_1));
+            $cont = 1;
+        }
+        if ($request->hasFile('imagem_2') && $file_2->isValid()) {
+            Storage::disk('local')->put($img_2, file_get_contents($file_2));
+            $cont++;
+        }
+        if ($request->hasFile('imagem_3') && $file_3->isValid()) {
+            Storage::disk('local')->put($img_3, file_get_contents($file_3));
+            $cont++;
+        }
+         if ($request->hasFile('imagem_4') && $file_4->isValid()) {
+            Storage::disk('local')->put($img_4, file_get_contents($file_4));
+            $cont++;
+        }
+         if ($request->hasFile('imagem_5') && $file_5->isValid()) {
+            Storage::disk('local')->put($img_5, file_get_contents($file_5));
+            $cont++;
+        }
+        if ($request->hasFile('imagem_6') && $file_6->isValid()) {
+            Storage::disk('local')->put($img_6, file_get_contents($file_6));
+            $cont++;
+        }
         //Regras de validaçao 
         $validator = Validator::make($dadosForm, Produto::$rules,Produto::$messages );
         if($validator->fails()){
@@ -142,6 +182,12 @@ class PainelController extends Controller {
                 ->withInput();
         }
         //Fim das Regras//   
+        $dadosForm['imagem_1'] = $img_1;
+        $dadosForm['imagem_2'] = $img_2;
+        $dadosForm['imagem_3'] = $img_3;
+        $dadosForm['imagem_4'] = $img_4;
+        $dadosForm['imagem_5'] = $img_5;
+        $dadosForm['imagem_6'] = $img_6;
         Produto::where('id',$id)->update($dadosForm);
         return redirect('painel/produto')->withInput();
     }

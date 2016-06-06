@@ -5,6 +5,7 @@ namespace Laracom\Http\Controllers;
 use Illuminate\Http\Request;
 use Laracom\Http\Requests;
 use DB;
+use MP;
 use Laracom\Models\Produto as Produto;
 use Laracom\Models\Pedido as Pedido;
 use Laracom\Models\Carrinho;
@@ -22,6 +23,29 @@ class PedidoController extends Controller {
     
     function getIndex() {
         $cont = $this->getCont();
+        $up_pedidos = Pedido::all();
+        foreach ($up_pedidos as $pedido) {
+            //Pedidos com este status são testados
+            if ($pedido->status == 'Pedido não finalizado') {
+                //Nesta etapa a busca é direcionada para a API do Mercado Pago
+                $filters = array(
+                    "external_reference" => $pedido->external_reference,
+                );
+                $search_result = MP::search_payment($filters, null, 100);
+
+                //Após a captura dos resultados, testa os que estão com status 200, que 
+                //representa um pedido que já foi emitido boleto
+                if ($search_result['response']['paging']['total'] == 1) {
+
+                    //Com este status o pedido é atualizado no DB para Pagamento não confirmado
+                    //que significa que o cliente emitiu o boleto mas ainda não compensou o pagamento.
+                    Pedido::where('external_reference', $pedido->external_reference)->update(array('boleto_emitido' => TRUE, 'status' => 'Aguardando Pagamento!'));
+                }
+            }
+            if ($pedido->pref_id == 'Gratis') {
+                Pedido::where('external_reference', $pedido->external_reference)->update(array('boleto_emitido' => TRUE));
+            }
+        }
         return view('painel.pedido.inicio-pedidos',compact('cont'));
     }
    function getListagemDePedidos($id) {
@@ -52,6 +76,29 @@ class PedidoController extends Controller {
   
     function getListarPedidos($opcao,Request $request) {
         $cont = $this->getCont();
+                $up_pedidos = Pedido::all();
+        foreach ($up_pedidos as $pedido) {
+            //Pedidos com este status são testados
+            if ($pedido->status == 'Pedido não finalizado') {
+                //Nesta etapa a busca é direcionada para a API do Mercado Pago
+                $filters = array(
+                    "external_reference" => $pedido->external_reference,
+                );
+                $search_result = MP::search_payment($filters, null, 100);
+
+                //Após a captura dos resultados, testa os que estão com status 200, que 
+                //representa um pedido que já foi emitido boleto
+                if ($search_result['response']['paging']['total'] == 1) {
+
+                    //Com este status o pedido é atualizado no DB para Pagamento não confirmado
+                    //que significa que o cliente emitiu o boleto mas ainda não compensou o pagamento.
+                    Pedido::where('external_reference', $pedido->external_reference)->update(array('boleto_emitido' => TRUE, 'status' => 'Aguardando Pagamento!'));
+                }
+            }
+            if ($pedido->pref_id == 'Gratis') {
+                Pedido::where('external_reference', $pedido->external_reference)->update(array('boleto_emitido' => TRUE));
+            }
+        }
         switch ($opcao) {
             case 1:
                 $pedidos = Pedido::where('status', 'Aguardando envio, pedido pago!')->paginate(10);
@@ -94,11 +141,7 @@ class PedidoController extends Controller {
                 return view('painel.pedidos.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
             case 8 :
                 if($request['atributo'] == 'valor_pedido'){
-                    
-                    
-                    $pedidos= Pedido::where("valor_pedido",'>',$request['parametro'])->where("valor_pedido",'<',$request['parametro2'])->paginate(10);
-                   
-                    
+                    $pedidos= Pedido::whereBetween("valor_pedido",[$request['parametro'],$request['parametro2']])->paginate(10);
                 }
                 if($request['atributo'] == 'data_pedido'){
                     $pedidos = Pedido::where($request['atributo'], $request['parametro'])->paginate(10);

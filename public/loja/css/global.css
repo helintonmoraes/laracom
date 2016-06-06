@@ -61,16 +61,15 @@
 	float:left;
 }
 #products .pagination li {
-	float:left;
-	margin:2px 4px;
+	
+	
 	list-style:none;
 }
 #products .pagination li a {
 	display:block;
-	width:55px;
+	width:40px;
 	height:41px;
-	margin:1px;
-	float:left;
+	
 	background:#f9f9f9;
 }
 #products .pagination li.current a {

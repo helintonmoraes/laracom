@@ -54,7 +54,7 @@ class ClienteController extends Controller {
     //============Finalizando um Pedido====================//
     
     
-    public function anyPedido(Request $request) {
+    public function postPedido(Request $request) {
         //Recupera ID do cliente Logado
         $id = $request->session()->get('dados');
         //Busca o cliente no DB
@@ -131,7 +131,7 @@ class ClienteController extends Controller {
             $preference_data = array(
                 //Passando o array dos items do carrinho
                 "items" => $carrinho, //Itens do carrinho, a API já soma todos os valores
-                "back_urls" => array("success" => "laracom.dev/cliente/pedidos", "pending" => "laracom.dev/cliente/pedidos"),
+                "back_urls" => array("success" => "www.laracom.dev/cliente/pedidos", "pending" => "www.laracom.dev/cliente/pedidos"),
                 "payer" => //Dados do comprador
                 [
                     "name" => $cliente->nome,
