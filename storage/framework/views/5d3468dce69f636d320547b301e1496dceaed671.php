@@ -12,7 +12,7 @@
                     <div>
                         
                         
-                        <h2>Formulário de Registro</h2>
+                        <h2>Dados do Cliente!</h2>
                         
                         <span><label>Nome</label></span>
                         <span><?php echo e(Form::text('nome', isset($cliente->nome)? $cliente->nome:null)); ?></span>

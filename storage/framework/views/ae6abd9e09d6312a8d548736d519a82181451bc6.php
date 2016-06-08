@@ -12,7 +12,6 @@
     <option>Aguardando Pagamento!</option>
     <option>Aguardando envio, pedido pago!</option>
     <option>Pedido Enviado!</option>
-    <option>Pedido Cancelado!</option>
     <input type="submit" value="Alterar Situação">
 </select>
 <?php echo e(Form::close()); ?>

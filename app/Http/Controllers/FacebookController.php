@@ -28,12 +28,6 @@ class FacebookController extends Controller {
             Cliente::insert(array('fone'=>'','endereco'=>'','cpf'=>'','nome' => $cliente->nome, 'email' => $cliente->email, 'login' => $cliente->login, 'senha' => $facebook['id'], 'ativacao' => TRUE, 'saldo_pontos' => 0, 'pontos_usados' => 0, 'pontos_total' => 0));
             $cliente = Cliente::where('email', $cliente->email)->get()->count();
             $dados = Cliente::where('email', $facebook['email'])->first();
-            //Caso a conta esteja desativada por ter sido alterado senha 
-            //pelo Esqueci senha
-            if ($dados->ativacao == FALSE) {
-                $request->session()->put('ativacao', 1);
-                return view('cliente.alt-senha');
-            }
             \Session::put('cliente', $cliente);
             \Session::put('dados', $dados->id);
             if (\Session::has('next-url')) {
@@ -48,12 +42,6 @@ class FacebookController extends Controller {
         else {
             $cliente = Cliente::where('email', $cliente->email)->get()->count();
             $dados = Cliente::where('email', $facebook['email'])->first();
-            //Caso a conta esteja desativada por ter sido alterado senha 
-            //pelo Esqueci senha
-            if ($dados->ativacao == FALSE) {
-                $request->session()->put('ativacao', 1);
-                return view('cliente.alt-senha');
-            }
             \Session::put('cliente', $cliente);
             \Session::put('dados', $dados->id);
             if (\Session::has('next-url')) {

@@ -54,6 +54,7 @@
   </script>
   <div>
       <p>*Não são computados valores pagos com cartão fidelidade</p>
+      <button onclick="window.location.href='ofertas'" type="button" data-toggle="tooltip" data-placement="top" title="Enviar ofertas para os 20 melhores clientes">Enviar Ofertas</button>
   </div>
 
 @endsection

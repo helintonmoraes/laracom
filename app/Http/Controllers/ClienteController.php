@@ -49,6 +49,25 @@ class ClienteController extends Controller {
         $request->session()->flash('status',$msg);
         return redirect()->back(); 
     }
+    public function postFinalizar(Request $request) {
+       
+        $dados = $request->except('_token','email','login');
+        $id = $request->session()->get('dados');
+
+        //Validação
+        $validator = Validator::make($dados, Cliente::$rules_alt, Cliente::$messages);
+        if ($validator->fails()) {
+            return redirect('cliente/cadastro')
+                            ->withErrors($validator)
+                            ->withInput();
+        }
+        //Fim das Regras//     
+        $dados['senha']=sha1($request['senha']);
+        Cliente::where('id', $id)->update($dados);
+        $msg = 'Cadastro Finalizado com sucesso.';
+        $request->session()->flash('status',$msg);
+        return redirect('cart/ver-carrinho'); 
+    }
     //++++++++++Módulo de Pedidos do Cliente+++++++++++// 
     //
     //============Finalizando um Pedido====================//
@@ -59,8 +78,12 @@ class ClienteController extends Controller {
         $id = $request->session()->get('dados');
         //Busca o cliente no DB
         $cliente = Cliente::find($id);
+        if($cliente->cpf == ''){
+            return view('cliente.finaliza_cadastro',compact('cliente'));
+        }
         //Todos os itens do carrinho de compras 
         $carts = Cart::content();
+
         
         //Apenas o valor totda da compra
         $valor_pedido = Cart::total();

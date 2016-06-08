@@ -157,7 +157,7 @@
                         </div>			
                     </div>
                     <div class="copy_right">
-                        <p>Laracom - Helinton e Jeferson © Todos os direitor Reservados 2016</p>
+                        <p>Laracom - Helinton e Jeferson © Todos os direitos Reservados 2016</p>
                     </div>
                 </div>
                 <script type="text/javascript">

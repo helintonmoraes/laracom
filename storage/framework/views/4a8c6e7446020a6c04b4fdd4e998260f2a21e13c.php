@@ -195,6 +195,12 @@ location.reload();
 </script> 
 <?php endif; ?>
 
+<?php if(Session::has('pedido_delete')): ?>
+<script LANGUAGE="JavaScript" TYPE="text/javascript">
+    alert("<?php echo session('pedido_delete'); ?>")
+    location.reload();
+</script> 
+<?php endif; ?>
 
 
 

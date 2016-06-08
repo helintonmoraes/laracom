@@ -6,12 +6,14 @@
 <h1>Escolha umas das opções...</h1>
 @endif
 
-
+<p>Filtros de busca de pedido:</p>
 <form id="busca_pedido" action="{{url('/pedido/listar-pedidos',8)}}">
+    
     <select id="options" name="atributo" onchange="optionCheck()">
         <option>...</option>
         <option value="data_pedido">Data do Pedido</option>
         <option value="valor_pedido">Valor do Pedido</option>
+        <option value="external_reference">Código do Pedido</option>
     </select>
 
     <script type="text/javascript">
@@ -22,6 +24,7 @@
 
                 $("#busca_pedido").append('<input id="data" class="div1" type="text" name="parametro" placeholder="Data"/><input id="data" class="div1"  type="submit" value="Buscar Pedido">');
                 $(".div2").remove();
+                $(".div3").remove();
                 $(document).ready(function () {
                     $("#data").datepicker({
                         dateFormat: 'dd/mm/yy',
@@ -39,6 +42,14 @@
 
                 $("#busca_pedido").append('<input class="div2" name="parametro" placeholder="Valor Mínimo" type="text"/><input class="div2" name="parametro2" placeholder="Valor Máximo" type="text"/><input class="div2"  type="submit" value="Buscar Pedido">');
                 $(".div1").remove();
+                $(".div3").remove();
+
+            }
+            if (option == "external_reference") {
+
+                $("#busca_pedido").append('<input class="div3" name="parametro" placeholder="Código do Pedido" type="text"/><input class="div3" type="submit" value="Buscar Pedido">');
+                $(".div1").remove();
+                $(".div2").remove();
 
             }
         }
@@ -86,19 +97,19 @@
     <tr style="font-size: 14px;">
         <td>{{$pedido->external_reference}}</td>
         <td>{{$pedido->status}}</td>
-        <td>{{date('d/m/y - H:i ',strtotime($pedido->updated_at))}}h</td>
+        <td>{{$pedido->data_pedido}}</td>
         <td>{{'R$' . number_format($pedido->valor_pedido, 2, ',', '.')}}</td>
-        <td><a class="glyphicon glyphicon-menu-hamburger"href="{{url('/pedido/detalhar-pedido/'.$pedido->external_reference)}}">Detalhar</a></td>
+        <td><a class="glyphicon glyphicon-menu-hamburger"href="{{url('/pedido/detalhar-pedido/'.$pedido->external_reference)}}">Detalhar</a>
+        @if(($pedido->status == 'Aguardando Pagamento!')&&((date('d/m/Y') - $pedido->data_pedido) < -9))
+        <a href="{{url('/pedido/delete-pedido/'.$pedido->external_reference)}}" data-toggle="tooltip" data-placement="top" title="Pedido há mais de 10 dias sem finalizar" class="glyphicon glyphicon-remove" style="color:red">Cancelar</a>
+        @endif
+        </td>
     </tr>
 
     @empty
     Nenhum pedido
     @endforelse
 </table>
-
-
-
-
 
 {{$pedidos->render()}}
 

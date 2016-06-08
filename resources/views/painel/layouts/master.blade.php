@@ -195,6 +195,12 @@ location.reload();
 </script> 
 @endif
 
+@if(Session::has('pedido_delete'))
+<script LANGUAGE="JavaScript" TYPE="text/javascript">
+    alert("{!! session('pedido_delete') !!}")
+    location.reload();
+</script> 
+@endif
 
 
 

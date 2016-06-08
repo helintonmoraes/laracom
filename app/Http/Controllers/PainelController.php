@@ -8,6 +8,7 @@ use DB;
 use Laracom\Http\Requests;
 use Storage;
 use MP;
+use Mail;
 use Laracom\Models\Cliente;
 use Laracom\Models\Admin;
 use Laracom\Models\Pedido;
@@ -27,7 +28,6 @@ class PainelController extends Controller {
         foreach($estoque as $e){
             $total = $e->qtd_estoque + $total;
          }
-//         dd($total);
         $marcas = DB::table('marca')->paginate(5);
         $categorias = DB::table('categoria')->where('id_pai','>', 0)->paginate(8);
         return view('painel.index', compact('produtos', 'marcas','categorias','clientes','total','pedidos'));
@@ -456,6 +456,36 @@ class PainelController extends Controller {
       
         return view('painel.graficos.top_clientes',compact('clientes','result'));
     }
-    
-    
+    public function getOfertas(){
+        $ofertas = Produto::orderByRaw('RANDOM()')->where('oferta',true)->paginate(4);
+        $result = DB::select( DB::raw("SELECT count(*) as compras,SUM(valor_total), id_cliente FROM pedidos where valor_total > 0 AND (status=('Aguardando envio, pedido pago!') OR status=('Entregue e Finalizado!') OR status=('Pedido Enviado!'))GROUP BY id_cliente ORDER BY sum DESC limit 20"));
+        $email = [];
+        $i = 0;
+//        dd($result);
+        foreach($result as $r){
+            $email[$i] = Cliente::find($r->id_cliente)->email;
+            $i++;
+        }
+
+//        dd($email);
+        $data = array(
+            'login'=>'Teste',
+            'name'=>'Teste',
+            'email'=>'helinton.htsm@gmail.com',
+            'subject'=>'Teste',
+            'msg'=>'Teste',
+            'ofertas'=> $ofertas
+            );
+       
+        Mail::send('painel.graficos.ofertas_vip',compact('ofertas'), function ($message) use($email){
+        $message->from('us@example.com', 'Laracom');
+        $message->to($email);
+        $message->subject('Ofertas do Dia - Laracom');
+       
+        });
+        return redirect('painel/top-cliente')->withInput();
+    }
 }
+    
+    
+

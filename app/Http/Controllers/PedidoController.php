@@ -146,13 +146,20 @@ class PedidoController extends Controller {
                 if($request['atributo'] == 'data_pedido'){
                     $pedidos = Pedido::where($request['atributo'], $request['parametro'])->paginate(10);
                 }
+                if($request['atributo'] == 'external_reference'){
+                    $pedidos = Pedido::where($request['atributo'], $request['parametro'])->paginate(10);
+                }
 
                 $status = 'Resultados de Busca';
                 $cor = 'background-color:#449d44;color:#ffffff';
                 return view('painel.pedido.inicio-pedidos', compact('pedidos', 'cor','status','cont'));
         }
     }
-    
+    function getDeletePedido($id){
+        Pedido::where('external_reference',$id)->delete();
+        \Session::flash('pedido_delete','Pedido cancelado com sucesso!');
+        return back();
+    }
     function postAlterarStatus(Request $request){
         
         if($request['status']=='Entregue e Finalizado!'){
